@@ -11,7 +11,7 @@ body {
     overflow-x: hidden;
 }
 
-#opening {
+.opening {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -21,30 +21,32 @@ body {
     width: 100%;
 }
 
-#opening h1 {
+.opening h1 {
     font-size: 36px;
     font-weight: 700;
     letter-spacing: 2px;
 }
 
-#animation {
+.animation {
     position: relative;
     width: 250px;
     height: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: auto;
+    margin: 0 auto;
+    transform: translateX(-120px);
 }
 
-#album {
+.album {
     position: relative;
     width: 100%;
     height: 100%;
+    top: -20%;
 }
 #MJ_COVER, #QUEEN_COVER{
-    width: 70%;
-    height: 70%;
+    width: 120%;
+    height: 120%;
     object-fit: contain;
     position: absolute;
     top: 15%;
@@ -56,10 +58,11 @@ body {
 
 
 #Vinyl {
-    width: 70%;
-    height: 70%;
+    width: 120%;
+    height: 120%;
     position: absolute;
     top: 15%;
-    left: 33%;
+    left: 80%;
     object-fit: contain;
+    margin: 0 auto;
 }
