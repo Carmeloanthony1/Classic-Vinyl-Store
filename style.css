@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #4a4b46;
+    color: #fcfbf9;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+#opening {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 20px;
+    width: 100%;
+}
+
+#opening h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+#animation {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+#album {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+#MJ_COVER, #QUEEN_COVER{
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    right: 20%;
+    border-radius: 4px;
+    z-index: 3;
+}
+
+
+#Vinyl {
+    width: 70%;
+    height: 70%;
+    position: absolute;
+    top: 15%;
+    left: 33%;
+    object-fit: contain;
+}
