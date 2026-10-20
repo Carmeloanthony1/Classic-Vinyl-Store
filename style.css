@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'Cinzel';
+    src: url(assets/Cinzel.ttf);
+}
 * {
     margin: 0;
     padding: 0;
@@ -9,6 +13,7 @@ body {
     color: #fcfbf9;
     min-height: 100vh;
     overflow-x: hidden;
+    font-family: "Cinzel", sans-serif;
 }
 
 .opening {
@@ -177,4 +182,9 @@ body {
     opacity: 0.5;
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
                 filter 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.play-btn {
+    width: 15px;
+    height: 15px;
 }
