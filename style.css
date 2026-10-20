@@ -133,15 +133,19 @@ body {
 }
 
 .song-item {
-    padding: 12px 18px;
+    position: relative;
     font-size: 14px;
+    gap: 12px;
     transform: translateX(50px);
     opacity: 0;
     z-index: 2;
     transition: background-color 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 15px;
+    display: grid;
+    place-items: center;
+}
+
+.song-item img, .song-item h4 {
+    grid-area: 1 / 1;
 }
 
 .song-item img {
@@ -159,8 +163,18 @@ body {
                 filter 0.4s ease-in-out, opacity 0.4s ease-in-out;
 }
 
-.song-item:hover img {
+.song-item:hover img, .song-item:hover h4 {
     filter: brightness(1) contrast(1);
     opacity: 1;
     transform: scale(1.05);
+}
+
+.song-item h4 {
+    z-index: 1;
+    color: #fcfbf9;
+    font-size: 18px;
+    pointer-events: none;
+    opacity: 0.5;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                filter 0.4s ease-in-out, opacity 0.4s ease-in-out;
 }
