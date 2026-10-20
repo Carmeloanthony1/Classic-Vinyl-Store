@@ -3,6 +3,16 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+gsap.to("#Vinyl", {
+    rotate: "-=360", duration: 1, repeat: -1, ease: "linear", 
+    scrollTrigger: {
+        trigger: ".opening",
+        start: "top top",
+        end: "+=2500",
+        scrub: false,
+    }
+});
+
 const timeline1 = gsap.timeline({
     scrollTrigger: {
         trigger: ".opening",
@@ -13,8 +23,7 @@ const timeline1 = gsap.timeline({
     }
 });
 
-timeline1.to("#Vinyl", { rotate: 360, duration: 1.5 });
-timeline1.to("#Vinyl", {x: 120, rotate: 360, duration: 2})
+timeline1.to("#Vinyl", {x: 120, duration: 2})
 timeline1.fromTo(".song-container h3", 
     { opacity: 0, y: 20},
     { opacity: 1, y: 0, duration: 1}, "-=1.5"
