@@ -38,7 +38,7 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    transform: translateX(-120px);
+    transform: translateX(60px);
 }
 
 .album {
@@ -110,6 +110,8 @@ body {
     flex-direction: column;
     gap: 15px;
     width: 320px;
+    pointer-events: none;
+    transform: translateX(140px);
 }
 
 .song-container h3{
@@ -117,6 +119,9 @@ body {
     font-weight: 700;
     color: #fcfbf9;
     opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transform: translateY(20px);
 }
 
@@ -132,6 +137,30 @@ body {
     font-size: 14px;
     transform: translateX(50px);
     opacity: 0;
-    border-radius: 6px;
     z-index: 2;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.song-item img {
+    display: flex;
+    border: 2px solid white;
+    border-radius: 6px;
+    width: 350px;
+    height: 150px;
+    object-fit: cover;
+    object-position: top;
+    padding: 2px;
+    opacity: 0.5;
+    filter: brightness(0.6) contrast(1.1);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                filter 0.4s ease-in-out, opacity 0.4s ease-in-out;
+}
+
+.song-item:hover img {
+    filter: brightness(1) contrast(1);
+    opacity: 1;
+    transform: scale(1.05);
 }
