@@ -37,3 +37,25 @@ timeline1.to(".song-container", {
     duration: 0.1
 }, "<");
 
+const audio = new Audio();
+audio.preload = "none"; 
+//file lagu ngga di download sebelum klik di play
+let button_song = null;
+
+document.querySelectorAll(".play-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+        const src = button.dataset.audio; //membaca syntax data-audio di html
+        if(!src) return;
+
+        if(button_song === button){
+            audio.paused ? audio.play() : audio.pause(); //kalau sedang pause, maka play, kalau sedang play, maka pause 
+            return;
+        }
+
+        audio.pause();
+        audio.src = src; //ganti lagu, jadi lagu yang ingin di ganti 
+        audio.currentTime = 0; //balikin lagi ke waktu 0
+        audio.play();
+        button_song = button;
+    });
+});
