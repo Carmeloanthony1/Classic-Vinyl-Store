@@ -55,12 +55,12 @@ const audio = new Audio();
 audio.preload = "none";
 let button_song = null;
 
-document.querySelectorAll(".play-btn").forEach((button) => {
-  button.addEventListener("click", () => {
-    const src = button.dataset.audio;
+document.querySelectorAll(".song").forEach((song) => {
+  song.addEventListener("click", () => {
+    const src = song.dataset.audio;
     if (!src) return;
 
-    if (button_song === button) {
+    if (button_song === song) {
       audio.paused ? audio.play() : audio.pause();
       return;
     }
@@ -69,6 +69,6 @@ document.querySelectorAll(".play-btn").forEach((button) => {
     audio.src = src;
     audio.currentTime = 0;
     audio.play();
-    button_song = button;
+    button_song = song;
   });
 });

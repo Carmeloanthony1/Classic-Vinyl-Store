@@ -144,7 +144,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 400px;
+    width: 350px;
     pointer-events: auto;
     transform: translateX(220px);
 }
@@ -157,7 +157,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    transform: translateX(-53px);
+    transform: translateX(-50px);
 }
 
 .song-list {
