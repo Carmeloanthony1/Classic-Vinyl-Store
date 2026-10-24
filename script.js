@@ -3,59 +3,72 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-gsap.to("#Vinyl", {
-    rotate: "-=360", duration: 1, repeat: -1, ease: "linear", 
-    scrollTrigger: {
-        trigger: ".opening",
-        start: "top top",
-        end: "+=2500",
-        scrub: false
-    }
+gsap.to(".vinyl", { rotation: "-=360", duration: 2, repeat: -1, ease: "none" });
+
+// vinyl Queen disembunyikan dulu
+gsap.set(".vinyl_queen", { autoAlpha: 0 });
+
+const sections = gsap.utils.toArray(".opening");
+const mj = gsap.utils.selector(sections[0]);
+
+const tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: ".scroll-container",
+    start: "top top",
+    end: "+=14000",
+    scrub: 2,
+    pin: true,
+    invalidateOnRefresh: true   // supaya window.innerWidth dihitung ulang saat resize
+  }
 });
 
-const timeline1 = gsap.timeline({
-    scrollTrigger: {
-        trigger: ".opening",
-        start: "top top",
-        end: "+=2500",
-        scrub: 1,
-        pin: true
-    }
-});
-timeline1.to(".hero_container", { x: -200, duration: 2 })
-timeline1.to("#Vinyl", {x: 120, duration: 2})
-timeline1.fromTo(".song-container h3", 
-    { opacity: 0, y: 20},
-    { opacity: 1, y: 0, duration: 1}, "-=1.5"
-)
-timeline1.fromTo(".song-item", 
-    { opacity: 0, x: 50},
-    { opacity: 1, x: 0, duration: 1, stagger: 0.4 }, "-=0.8"
-)
-timeline1.to(".song-container", {
-    pointerEvents: "auto",
-    duration: 0.1
-}, "<");
+function addSectionAnimation(section) {
+  const q = gsap.utils.selector(section);
+  tl.to(q(".hero_container"), { x: -200, duration: 2 })
+    .to(q(".vinyl"), { x: 120, duration: 2 })
+    .fromTo(q(".song-container h3"),
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 1 }, "-=1.5")
+    .fromTo(q(".song-item"),
+      { opacity: 0, x: 50 },
+      { opacity: 1, x: 0, duration: 1, stagger: 0.4 }, "-=0.8");
+}
+
+addSectionAnimation(sections[0]);
+
+tl.to(mj(".song-container"), {
+    autoAlpha: 0,
+    duration: 1,
+    onStart: () => audio.pause()
+  }, "+=1")
+  .to(mj(".hero_container"), { x: 0, duration: 2 }, "<")
+  .to(".vinyl_mj", { x: 0, duration: 2 }, "<");
+
+tl.addLabel("travel", "+=0.5")
+  .to(".kanan", { xPercent: -50, duration: 6, ease: "power2.inOut" }, "travel")
+  .to(".vinyl_mj", { x: () => window.innerWidth, duration: 6, ease: "none" }, "travel")
+  .set(".vinyl_mj", { autoAlpha: 0 })
+  .set(".vinyl_queen", { autoAlpha: 1 });
+  addSectionAnimation(sections[1]);
 
 const audio = new Audio();
-audio.preload = "none"; 
-//file lagu ngga di download sebelum klik di play
+audio.preload = "none";
 let button_song = null;
 
 document.querySelectorAll(".play-btn").forEach((button) => {
-    button.addEventListener("click", () => {
-        const src = button.dataset.audio; //membaca syntax data-audio di html
-        if(!src) return;
+  button.addEventListener("click", () => {
+    const src = button.dataset.audio;
+    if (!src) return;
 
-        if(button_song === button){
-            audio.paused ? audio.play() : audio.pause(); //kalau sedang pause, maka play, kalau sedang play, maka pause 
-            return;
-        }
+    if (button_song === button) {
+      audio.paused ? audio.play() : audio.pause();
+      return;
+    }
 
-        audio.pause();
-        audio.src = src; //ganti lagu, jadi lagu yang ingin di ganti 
-        audio.currentTime = 0; //balikin lagi ke waktu 0
-        audio.play();
-        button_song = button;
-    });
+    audio.pause();
+    audio.src = src;
+    audio.currentTime = 0;
+    audio.play();
+    button_song = button;
+  });
 });
