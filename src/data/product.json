@@ -1,0 +1,47 @@
+[
+  {
+    "id": "mj-number-ones",
+    "artist": "Michael Jackson",
+    "title": "Number Ones",
+    "cover": "https://placehold.co/400x400/c9d0da/a58141?text=MJ",
+    "price": 450000,
+    "hot": true,
+    "bestSeller": true
+  },
+  {
+    "id": "queen-greatest-hits-2",
+    "artist": "Queen",
+    "title": "Greatest Hits II",
+    "cover": "https://placehold.co/400x400/c9d0da/a58141?text=Queen",
+    "price": 420000,
+    "hot": true,
+    "bestSeller": true
+  },
+  {
+    "id": "elvis-golden-records",
+    "artist": "Elvis Presley",
+    "title": "Elvis' Golden Records",
+    "cover": "https://placehold.co/400x400/c9d0da/a58141?text=Elvis",
+    "price": 400000,
+    "hot": true,
+    "bestSeller": false
+  },
+  {
+    "id": "ewf-best-of-vol-1",
+    "artist": "Earth, Wind & Fire",
+    "title": "The Best of Earth, Wind & Fire Vol. 1",
+    "cover": "https://placehold.co/400x400/c9d0da/a58141?text=EWF",
+    "price": 430000,
+    "hot": true,
+    "bestSeller": false
+  },
+  {
+    "id": "abba-gold",
+    "artist": "ABBA",
+    "title": "Gold: Greatest Hits",
+    "cover": "https://placehold.co/400x400/c9d0da/a58141?text=ABBA",
+    "price": 440000,
+    "hot": true,
+    "bestSeller": false
+  }
+]
