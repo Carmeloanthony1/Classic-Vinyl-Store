@@ -76,9 +76,14 @@ export default function Home(){
                 <div className="flex gap-8 p-8 w-full justify-content">
                     {hot_product.map((products) => (
                         <div key={products._id} className="flex-1 min-w-0 group cursor-pointer">
-                            <div className="aspect-square rounded-3xl overflow-hidden bg-white border border-gray-300 shadow-lg hover:shadow-2xl hover:border-[#8B6B4A] transition-all duration-300">
-                                <img src={products.cover} alt = {products.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+                            
+                            <div className="relative aspect-square p-4 rounded-3xl bg-white border border-gray-300 shadow-lg hover:shadow-2xl hover:border-[#8B6B4A] transition-all duration-300 flex justify-center">
+                                {products.bestSeller && (
+                                    <div className="absolute rounded-2xl p-2 bg-[#a58141] text-[##ffffe6] -top-3 left-1/2 -translate-x-1/2 z-3 select none">Best Seller</div>
+                                )} 
+                                <img src={products.cover} alt = {products.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500 overflow-hidden " />
                             </div>
+
                         </div>
                     ))}
                 </div>
