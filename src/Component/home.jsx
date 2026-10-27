@@ -2,75 +2,34 @@ import React, { useState, useEffect } from "react";
 export default function Home(){
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    const mockdata = [
-        {
-            "id": "mj-number-ones",
-            "artist": "Michael Jackson",
-            "title": "Number Ones",
-            "cover": "https://thumb.wikimedia.org/wikipedia/en/thumb/b/b3/MichaelsNumberOnes.JPG/250px-MichaelsNumberOnes.JPG?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
-            "price": 450000,
-            "category": "Pop",
-            "hot": true,
-            "bestSeller": true
-        },
-        {
-            "id": "queen-greatest-hits-2",
-            "artist": "Queen",
-            "title": "Greatest Hits II",
-            "cover": "https://i.scdn.co/image/ab67616d0000b2733db35792fa2e91722e9897b1",
-            "price": 420000,
-            "category": "Rock",
-            "hot": true,
-            "bestSeller": true
-        },
-        {
-            "id": "elvis-golden-records",
-            "artist": "Elvis Presley",
-            "title": "Elvis' Golden Records",
-            "cover": "https://upload.wikimedia.org/wikipedia/en/9/9d/ElvisGoldenRecordsLPCover.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original",
-            "price": 400000,
-            "category": "Rock and Roll",
-            "hot": true,
-            "bestSeller": false
-        },
-        {
-            "id": "ewf-best-of-vol-1",
-            "artist": "Earth, Wind & Fire",
-            "title": "The Best of Earth, Wind & Fire Vol. 1",
-            "cover": "https://upload.wikimedia.org/wikipedia/en/9/95/BestofEarthWind%26Fire.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original",
-            "price": 430000,
-            "category": "R&B / Soul",
-            "hot": true,
-            "bestSeller": false
-        },
-        {
-            "id": "abba-gold",
-            "artist": "ABBA",
-            "title": "Gold: Greatest Hits",
-            "cover": "https://www.sweelee.co.id/cdn/shop/files/products_2FFLS-VINH-BD-0600753511060_2FFLS-VINH-BD-0600753511060_1745831727930_grande.jpg?v=1748177757",
-            "price": 440000,
-            "category": "Pop",
-            "hot": true,
-            "bestSeller": false
-        }
-    ];
-
-    const genre = [
-        {
-            
-        }
-    ];
-
+    const [error, setError] = useState(false);
     useEffect(() => {
-        setProducts(mockdata);
-        setLoading(false);
-    }, []);
+        const fetch_products = async () => {
+            try {
+                const response = await('http://localhost:8000/api/products');
 
-    if(loading) return <div className="p-10 text-center">Loading...</div>
+                if(!response.ok){
+                    throw new error("Gagal mengambil dari database");
+                }
+
+                const data = await response.json();
+                setProducts(data);
+            } catch (error) {
+                console.error("Terdapat masalah saat melakukan fetch product :", error);
+                setError(true)
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetch_products();
+    }, []);
+    //[] disini itu untuk bikin function jalan sekali setiapkali web di buka 
 
     const hot_product = products.filter((item) => item.hot);
     const best_product = products.filter((item) => item.bestSeller);
+
+    if(loading) return <div className="text-center text-2xl font-cinzel text-[#a58141]">Memuat dari Database</div>
+    if(setError = true) return <div className="text-center text-2xl font-cinzel text-[#a58141]">Error, terdapat masalah di backend</div>
 
     return (
         <section className="min-h-screen bg-[#ffffff] font-cinzel">
