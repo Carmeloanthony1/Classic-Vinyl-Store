@@ -35,7 +35,7 @@ export default function Home(){
 
     const hot_product = products.filter((item) => item.hot);
     const best_product = products.filter((item) => item.bestSeller);
-
+    
     if(loading) return <div className="text-center text-2xl font-cinzel text-[#a58141]">Memuat dari Database</div>
     if(error == true) return <div className="text-center text-2xl font-cinzel text-[#a58141]">Error, terdapat masalah di backend</div>
 
@@ -74,7 +74,11 @@ export default function Home(){
                     </div>
                 </div>
                 <div className="flex gap-8 p-8">
-                   
+                   {categories.slice(0, 5).map((category) => (
+                        <div key = {category.id} className="flex flex-row items-center gap-3 p-8 cursor-pointer border border-gray-300  hover:shadow-2xl hover:border-[#8B6B4A] rounded-xl group bg-[#ffffff]">
+                            <img src={category.imageBanner} alt={category.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-500 shadow-lg group-hover:scale-110 transition rounded-xl" />
+                        </div>
+                   ))}
                 </div>
             </div>
         </section>

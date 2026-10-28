@@ -15,7 +15,7 @@ const products_schema = new mongoose.Schema({
 
 const category_schema = new mongoose.Schema({
     name: String,
-    img: String
+    imageBanner: String
 });
 
 // Namai modelnya dengan 'Product' (tanpa s) agar sesuai dengan panggilan di bawah
