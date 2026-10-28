@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 export default function Home(){
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-
+    const [selected_category, setSelected_category] = useState("All");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     useEffect(() => {
@@ -33,9 +33,14 @@ export default function Home(){
     }, []);
     //[] disini itu untuk bikin function jalan sekali setiapkali web di buka 
 
-    const hot_product = products.filter((item) => item.hot);
+    const hot_product = products
+        .filter((item) => item.hot)
+        .sort((a, b) => (b.bestSeller ? 1 : 0) - (a.bestSeller ? 1 : 0));
+
     const best_product = products.filter((item) => item.bestSeller);
+    const regular_product = products.filter((item) => !item.bestSeller);
     
+
     if(loading) return <div className="text-center text-2xl font-cinzel text-[#a58141]">Memuat dari Database</div>
     if(error == true) return <div className="text-center text-2xl font-cinzel text-[#a58141]">Error, terdapat masalah di backend</div>
 
