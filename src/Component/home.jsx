@@ -6,17 +6,17 @@ export default function Home(){
     useEffect(() => {
         const fetch_products = async () => {
             try {
-                const response = await('http://localhost:8000/api/products');
+                const response = await fetch('http://localhost:8000/api/products');
 
                 if(!response.ok){
-                    throw new error("Gagal mengambil dari database");
+                    throw new Error("Gagal mengambil dari database");
                 }
 
                 const data = await response.json();
                 setProducts(data);
-            } catch (error) {
-                console.error("Terdapat masalah saat melakukan fetch product :", error);
-                setError(true)
+            } catch (err) {
+                console.error("Terdapat masalah saat melakukan fetch product :", err);
+                setError(true);
             } finally {
                 setLoading(false);
             }
@@ -29,7 +29,7 @@ export default function Home(){
     const best_product = products.filter((item) => item.bestSeller);
 
     if(loading) return <div className="text-center text-2xl font-cinzel text-[#a58141]">Memuat dari Database</div>
-    if(setError = true) return <div className="text-center text-2xl font-cinzel text-[#a58141]">Error, terdapat masalah di backend</div>
+    if(error == true) return <div className="text-center text-2xl font-cinzel text-[#a58141]">Error, terdapat masalah di backend</div>
 
     return (
         <section className="min-h-screen bg-[#ffffff] font-cinzel">
@@ -49,7 +49,7 @@ export default function Home(){
                             
                             <div className="relative aspect-square p-8 rounded-3xl bg-white border border-gray-300 shadow-lg hover:shadow-2xl hover:border-[#8B6B4A] transition-all duration-300 flex justify-center">
                                 {products.bestSeller && (
-                                    <div className="absolute rounded-2xl p-2 bg-[#a58141] text-[##ffffe6] -top-3 left-1/2 -translate-x-1/2 z-3 select none">Best Seller</div>
+                                    <div className="absolute rounded-2xl p-2 bg-[#a58141] text-[#ffffe6] -top-3 left-1/2 -translate-x-1/2 z-3 select none">Best Seller</div>
                                 )} 
                                 <img src={products.cover} alt = {products.title} className="w-full h-full object-cover group-hover:scale-105 transition rounded-xl duration-500 overflow-hidden " />
                             </div>
