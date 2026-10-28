@@ -1,8 +1,8 @@
 const express = require("express");
-const app = express.app();
-const product = require();
+const router = express.Router();
 const mongoose = require("mongoose");
 
+// 1. Schema & Model
 const products_schema = new mongoose.Schema({
     id: String, 
     artist: String,
@@ -13,18 +13,16 @@ const products_schema = new mongoose.Schema({
     bestSeller: Boolean
 });
 
-const product = mongoose.model('Product', products_schema, "products");
+// Namai modelnya dengan 'Product' (tanpa s) agar sesuai dengan panggilan di bawah
+const Product = mongoose.model('Product', products_schema, "products");
 
-app.get('/api/products', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        const all_product = await product.find();
-
+        const all_product = await Product.find();
         res.json(all_product);
     } catch (error) {
-        res.json(500).json({ message: "Gagal mengambil data", error : error.message });
+        res.status(500).json({ message: "Gagal mengambil data", error : error.message });
     }
 });
 
-app.listen(port, () => {
-    console.log("Server berjalan")
-})
+module.exports = router;
