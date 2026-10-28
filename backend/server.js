@@ -17,7 +17,7 @@ mongoose.connect((process.env.MONGO_URL))
  .then(() => console.log("Terhubung ke MongoDB"))
  .catch((err) => console.log("Gagal terhubung ke MongoDB", err.message));
 
-app.use('/api/products', product);
+app.use('/api', product);
 
 app.listen(port, () => {
     console.log(`Server berjalan di http://localhost:${port}`);

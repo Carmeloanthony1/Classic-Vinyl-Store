@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from "react";
 export default function Home(){
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     useEffect(() => {
         const fetch_products = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/products');
+                const [response_product, response_categories] = await Promise.all([
+                    fetch('http://localhost:8000/api/products'),
+                    fetch('http://localhost:8000/api/categories')
+                ]);
 
-                if(!response.ok){
+                if(!response_product.ok || !response_categories.ok){
                     throw new Error("Gagal mengambil dari database");
                 }
 
-                const data = await response.json();
-                setProducts(data);
+                const data_product = await response_product.json();
+                const data_categories = await response_categories.json();
+                setProducts(data_product);
+                setCategories(data_categories);
+                
             } catch (err) {
                 console.error("Terdapat masalah saat melakukan fetch product :", err);
                 setError(true);
@@ -64,6 +72,9 @@ export default function Home(){
                             <path d="M598.6 342.6C611.1 330.1 611.1 309.8 598.6 297.3L470.6 169.3C458.1 156.8 437.8 156.8 425.3 169.3C412.8 181.8 412.8 202.1 425.3 214.6L498.7 288L64 288C46.3 288 32 302.3 32 320C32 337.7 46.3 352 64 352L498.7 352L425.3 425.4C412.8 437.9 412.8 458.2 425.3 470.7C437.8 483.2 458.1 483.2 470.6 470.7L598.6 342.7z"/>
                         </svg>
                     </div>
+                </div>
+                <div className="flex gap-8 p-8">
+                   
                 </div>
             </div>
         </section>

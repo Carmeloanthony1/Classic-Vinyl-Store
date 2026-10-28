@@ -14,14 +14,15 @@ const products_schema = new mongoose.Schema({
 });
 
 const category_schema = new mongoose.Schema({
-    name: String
+    name: String,
+    img: String
 });
 
 // Namai modelnya dengan 'Product' (tanpa s) agar sesuai dengan panggilan di bawah
 const Product = mongoose.model('Product', products_schema, "products");
 const Category = mongoose.model('Category', category_schema, "categories");
 
-router.get('/', async (req, res) => {
+router.get('/products', async (req, res) => {
     try {
         const all_product = await Product.find();
         res.json(all_product);
@@ -30,7 +31,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/api/categories', async (req, res) => {
+router.get('/categories', async (req, res) => {
     try {
         const all_genre = await Category.find();
         res.json(all_genre);
