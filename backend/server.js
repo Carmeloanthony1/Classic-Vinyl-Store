@@ -5,7 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const port = process.env.PORT;
 
-const product = require('./routes');
+const product = require('./routes/routes');
 //biar bisa baca .env
 const app = express();
 
