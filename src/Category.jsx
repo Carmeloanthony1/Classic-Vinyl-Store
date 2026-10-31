@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import Search from "./Component/searchbar";
 export default function Category(){
     const { category } = useParams();
     const [product_categories, setProduct_categories] = useState([]);
@@ -28,7 +28,11 @@ export default function Category(){
     }, [category]);
     return (
         <div className="w-full min-h-screen flex flex-col gap-8 p-8 font-cinzel text-[#a58141] bg-[#ffffff]">
-            <h1 className="text-4xl">Category : {category}</h1>
+            <div className="flex flex-row justify-between">
+                <h1 className="text-4xl">Category : {category}</h1>
+                <Search/>
+                <div></div>
+            </div>
             <div>
             <ul className="grid grid-cols-4">{product_categories.map((product) => (
                 <li key={product._id} className="flex justify-center items-center margin-0 mb-24 gap-3 flex-col">
