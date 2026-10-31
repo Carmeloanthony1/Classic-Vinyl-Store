@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 export default function Home(){
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [selected_category, setSelected_category] = useState("All");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetch_products = async () => {
             try {
@@ -80,7 +84,8 @@ export default function Home(){
                 </div>
                 <div className="flex gap-8 p-8">
                    {categories.slice(0, 5).map((category) => (
-                        <div key = {category.id} className="flex flex-row items-center gap-3 p-8 cursor-pointer border border-gray-300  hover:shadow-2xl hover:border-[#8B6B4A] rounded-xl group bg-[#ffffff]">
+                        <div key = {category.id} onClick={() => navigate(`/category/${category.name.toLowerCase()}`)}
+                            className="flex flex-row items-center gap-3 p-8 cursor-pointer border border-gray-300  hover:shadow-2xl hover:border-[#8B6B4A] rounded-xl group bg-[#ffffff]">
                             <img src={category.imageBanner} alt={category.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-500 shadow-lg group-hover:scale-110 transition rounded-xl" />
                         </div>
                    ))}
