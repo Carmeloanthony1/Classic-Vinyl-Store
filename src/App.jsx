@@ -5,9 +5,12 @@ import Home from "./Component/home"
 import Category from "./Category";
 export default function App(){
   return (
+    <div>
+    <Nav/>
     <Routes>
       <Route path = "/" element = {<Home/>}/>
-      <Route path = "/category/:category_name" element = {<Category/>}/>
+      <Route path = "/category/:category" element = {<Category/>}/>
     </Routes>
+    </div>
   );
 }

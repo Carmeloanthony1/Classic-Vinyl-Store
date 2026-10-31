@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function Category(){
-    const { Category } = useParams();
+    const { category } = useParams();
     const [product_categories, setProduct_categories] = useState([]);
     const [loading, setLoading] = useState(true);    
     const [error, setError] = useState(false);
@@ -10,9 +10,9 @@ export default function Category(){
     useEffect(() => {
         const fetch_product = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/products?category=${Category}`);
+                const response = await fetch(`http://localhost:8000/api/products?category=${category}`);
                 if(!response.ok){
-                    throw new error ("gagal mengambil dari database");
+                    throw new Error ("gagal mengambil dari database");
                 }
 
                 const data_product = await response.json();
@@ -25,13 +25,21 @@ export default function Category(){
             }
         };
         fetch_product();
-    }, [Category]);
+    }, [category]);
     return (
-        <div>
-            <h1>Category</h1>
-            <ul>{product_categories.map((product) => (
-                <span>{product.title}</span>
-            ))}</ul>
+        <div className="w-full min-h-screen flex flex-col gap-8 p-8 font-cinzel text-[#a58141] bg-[#ffffff]">
+            <h1 className="text-4xl">Category : {category}</h1>
+            <div>
+            <ul className="grid grid-cols-4">{product_categories.map((product) => (
+                <li key={product._id} className="flex justify-center items-center margin-0 mb-24 gap-3 flex-col">
+                    <div className="border border-gray-300 p-4 rounded-xl hover:scale-105 hover:shadow-2xl hover:border-[#8B6B4A] duration-300">
+                        <img className = "w-80 h-80" src={product.cover}/>
+                    </div>
+                </li>
+            ))}
+            </ul>
+            </div>
+
         </div> 
     );
 }

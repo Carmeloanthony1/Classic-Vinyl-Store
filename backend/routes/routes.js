@@ -10,6 +10,7 @@ const products_schema = new mongoose.Schema({
     cover: String,
     price: Number,
     hot: Boolean,
+    category_name: String,
     bestSeller: Boolean
 });
 
@@ -24,7 +25,15 @@ const Category = mongoose.model('Category', category_schema, "categories");
 
 router.get('/products', async (req, res) => {
     try {
-        const all_product = await Product.find();
+        const { category } = req.query;
+        let query = {};
+        if (category){
+            query.category_name = category
+        }
+        //nanti si category yang ada di paramter url akan menjadi query yang kemudian akan di cocokin
+        //sama nama category di db, kalau ada nanti dia cariin datanya
+        const all_product = await Product.find(query).sort({ bestSeller: -1});
+        //biar nanti yang best seller tetap di paling kiri 
         res.json(all_product);
     } catch (error) {
         res.status(500).json({ message: "Gagal mengambil data album", error : error.message });

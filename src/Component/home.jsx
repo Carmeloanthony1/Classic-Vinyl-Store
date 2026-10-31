@@ -84,7 +84,7 @@ export default function Home(){
                 </div>
                 <div className="flex gap-8 p-8">
                    {categories.slice(0, 5).map((category) => (
-                        <div key = {category.id} onClick={() => navigate(`/category/${category.name.toLowerCase()}`)}
+                        <div key = {category.id} onClick={() => navigate(`/category/${category.name}`)}
                             className="flex flex-row items-center gap-3 p-8 cursor-pointer border border-gray-300  hover:shadow-2xl hover:border-[#8B6B4A] rounded-xl group bg-[#ffffff]">
                             <img src={category.imageBanner} alt={category.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-500 shadow-lg group-hover:scale-110 transition rounded-xl" />
                         </div>
