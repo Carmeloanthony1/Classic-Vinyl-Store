@@ -25,10 +25,14 @@ const Category = mongoose.model('Category', category_schema, "categories");
 
 router.get('/products', async (req, res) => {
     try {
-        const { category } = req.query;
+        const { category, search } = req.query;
         let query = {};
         if (category){
             query.category_name = category
+        }
+
+        if (search){
+            query.title = { $regex: search, $options: 'i' }
         }
         //nanti si category yang ada di paramter url akan menjadi query yang kemudian akan di cocokin
         //sama nama category di db, kalau ada nanti dia cariin datanya

@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import Search from "./Component/searchbar";
 export default function Category(){
     const { category } = useParams();
     const [product_categories, setProduct_categories] = useState([]);
     const [loading, setLoading] = useState(true);    
     const [error, setError] = useState(false);
+    const [search_params, setSearch_params] = useSearchParams();
 
     useEffect(() => {
         const fetch_product = async () => {
+            const value = search_params.get("search");
             try {
-                const response = await fetch(`http://localhost:8000/api/products?category=${category}`);
+                const response = await fetch(`http://localhost:8000/api/products?category=${category}&search=${value}`); //? itu maksudnya di lakukan ngga
                 if(!response.ok){
-                    throw new Error ("gagal mengambil dari database");
+                    throw new Error("Terdapat masalah saat melakukan fetch data");
                 }
-
-                const data_product = await response.json();
-                setProduct_categories(data_product);
+                const data = await response.json();
+                setProduct_categories(data);
             } catch (error){
-                console.log("Terdapat masalah saat melakukan fetch category :", error);
                 setError(true);
-            } finally {
-                setLoading(false);
-            }
+                console.error("Terdapat error saat ingin melakukan fetch", error);
+            } 
         };
         fetch_product();
-    }, [category]);
+    }, [category, search_params]);
     return (
         <div className="w-full min-h-screen flex flex-col gap-8 p-8 font-cinzel text-[#a58141] bg-[#ffffff]">
             <div className="grid grid-cols-3 items-center w-full">
