@@ -28,10 +28,11 @@ export default function Category(){
     }, [category]);
     return (
         <div className="w-full min-h-screen flex flex-col gap-8 p-8 font-cinzel text-[#a58141] bg-[#ffffff]">
-            <div className="flex flex-row justify-between">
-                <h1 className="text-4xl">Category : {category}</h1>
-                <Search/>
-                <div></div>
+            <div className="grid grid-cols-3 items-center w-full">
+                <h1 className="text-4xl justify-self-start">Category : {category}</h1>
+                <div className="flex justify-self-center w-full">
+                    <Search/>
+                </div>
             </div>
             <div>
             <ul className="grid grid-cols-4">{product_categories.map((product) => (
