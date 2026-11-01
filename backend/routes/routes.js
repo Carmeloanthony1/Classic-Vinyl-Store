@@ -27,7 +27,7 @@ router.get('/products', async (req, res) => {
     try {
         const { category, search } = req.query;
         let query = {};
-        if (category){
+        if (category && category.trim() !== ""){
             query.category_name = category
         }
 

@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 export default function Search(){
     const [search_params, setSearch_params] = useSearchParams();
-    const [search, setSearch] = useState(search_params.get("search"));
+    const [search, setSearch] = useState(search_params.get("search") || "");
 
     const handleInputChange = (e) => {
         const value = e.target.value;

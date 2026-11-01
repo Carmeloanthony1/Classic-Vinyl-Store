@@ -10,7 +10,8 @@ export default function Category(){
 
     useEffect(() => {
         const fetch_product = async () => {
-            const value = search_params.get("search");
+            const raw_search = search_params.get("search");
+            const value = (!raw_search || raw_search === "null") ? "" : raw_search;
             try {
                 const response = await fetch(`http://localhost:8000/api/products?category=${category}&search=${value}`); //? itu maksudnya di lakukan ngga
                 if(!response.ok){

@@ -5,9 +5,10 @@ import Home from "./Component/home"
 import Gsap from "./Component/gsap_intro"
 import Category from "./Category";
 export default function App(){
+  const location = useLocation();
   return (
     <div>  
-      <Nav />
+      {location.pathname !== "/" && <Nav/>}
       <Routes>
         <Route path="/" element = {<Gsap/>}/>
         <Route path = "/Home" element = {<Home/>}/>
