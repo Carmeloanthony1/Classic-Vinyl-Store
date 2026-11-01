@@ -57,7 +57,10 @@ export default function Home(){
                     <div className="absolute flex flex-col items-center gap-6">
                         <h1 className="text-4xl font-bold">Providing high-quality vinyl</h1>
                         <h3 className="text-3xl font-bold">Discover curated collection and rare pressings</h3>
-                        <button className="border-3 border-[#a58141] mt-4 p-4 pl-8 pr-8 text-3xl rounded-full cursor-pointer transition-all duration-300 ease-in-out hover:bg-[#a58141] hover:scale-103">Shop Collection</button>
+                        <div className="flex flex-column gap-3">
+                            <button className="border-3 border-[#a58141] mt-4 p-4 pl-8 pr-8 text-3xl rounded-full cursor-pointer transition-all duration-300 ease-in-out hover:bg-[#a58141] hover:scale-103">Shop Collection</button>
+                            <button className="border-3 border-[#a58141] mt-4 p-4 pl-8 pr-8 text-3xl rounded-full cursor-pointer transition-all duration-300 ease-in-out hover:bg-[#a58141] hover:scale-103">Become a Member</button>
+                        </div>
                     </div>
                 </div>
                 <div className="w-full h-20 text-[#a58141] flex flex-row justify-between p-8 text-3xl">
