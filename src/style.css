@@ -3,26 +3,26 @@
     src: url(assets/Cinzel.ttf);
 }
 
-/* 1. Bikin reset universal yang benar (pake bintang '*', bukan minus '-') */
-* {
+/* 1. Scoped Reset Universal */
+.gsap-intro-wrapper *, 
+.gsap-intro-wrapper *::before, 
+.gsap-intro-wrapper *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
+/* 2. Isolated Container (Diubah jadi min-height supaya GSAP bisa scroll/pin dengan benar) */
+.gsap-intro-wrapper {
     background-color: #4a4b46;
     color: #fcfbf9;
-    font-family: "Cinzel", sans-serif; /* Sembunyikan overflow horizontal */
+    font-family: "Cinzel", sans-serif;
     width: 100%;
-    height: 100vh;
-}
-
-body {
+    min-height: 100vh;
     overflow-x: hidden;
 }
 
-.scroll-container {
+.gsap-intro-wrapper .scroll-container {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -30,22 +30,19 @@ body {
 }
 
 /* Track horizontal pendorong section */
-.kanan {
+.gsap-intro-wrapper .kanan {
     display: flex !important;
-    flex-wrap: nowrap !important; /* DILARANG turun ke bawah */
-    width: 300vw; /* 2 section = 200vw */
+    flex-wrap: nowrap !important;
+    width: 300vw;
     height: 100vh;
     will-change: transform;
 }
 
 /* KUNCI UTAMA KETAT BIAR NGGAK KEGEPRAK/MENCIUT */
-.opening {
+.gsap-intro-wrapper .opening {
     width: 100vw !important;
     height: 100vh !important;
-    
-    /* flex-shrink: 0 murni NGGAK BOLEH MENCUIUT biar Queen terdorong penuh ke kanan luar layar */
     flex: 0 0 100vw !important; 
-    
     position: relative;
     overflow: visible;
     display: flex;
@@ -55,13 +52,13 @@ body {
     padding: 40px 20px;
 }
 
-.opening h1 {
+.gsap-intro-wrapper .opening h1 {
     font-size: 36px;
     font-weight: 700;
     letter-spacing: 2px;
 }
 
-.animation {
+.gsap-intro-wrapper .animation {
     position: relative;
     width: 250px;
     height: 250px;
@@ -72,7 +69,7 @@ body {
     transform: translateX(60px);
 }
 
-.album {
+.gsap-intro-wrapper .album {
     position: relative;
     width: 100%;
     height: 100%;
@@ -80,7 +77,8 @@ body {
     transform: translate(50px);
 }
 
-#MJ_COVER, #QUEEN_COVER {
+.gsap-intro-wrapper #MJ_COVER, 
+.gsap-intro-wrapper #QUEEN_COVER {
     width: 120%;
     height: 120%;
     object-fit: contain;
@@ -92,7 +90,8 @@ body {
     z-index: 3;
 }
 
-.vinyl_mj, .vinyl_queen{
+.gsap-intro-wrapper .vinyl_mj, 
+.gsap-intro-wrapper .vinyl_queen {
     width: 120%;
     height: 120%;
     position: absolute;
@@ -102,34 +101,35 @@ body {
     margin: 0 auto;
 }
 
-.background {
+.gsap-intro-wrapper .background {
     position: absolute;
     inset: 0;
     z-index: 0;
     overflow: hidden;
 }
 
-.background img {
+.gsap-intro-wrapper .background img {
     width: 100%;
     height: 100%;
-    object-fit: cover;   /* sekarang kena ke <img> */
+    object-fit: cover;
     display: block;
 }
 
-.background::after {
+.gsap-intro-wrapper .background::after {
     content: "";
     position: absolute;
     inset: 0;
-    background:
-    radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.85) 100%);
 }
 
-.opening h1, .animation, .GSAP-TEXT {
+.gsap-intro-wrapper .opening h1, 
+.gsap-intro-wrapper .animation, 
+.gsap-intro-wrapper .GSAP-TEXT {
     position: relative;
     z-index: 2;
 }
 
-.hero_container {
+.gsap-intro-wrapper .hero_container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,7 +140,7 @@ body {
     margin: 0 auto;
 }
 
-.song-container {
+.gsap-intro-wrapper .song-container {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -149,7 +149,7 @@ body {
     transform: translateX(220px);
 }
 
-.song-container h3 {
+.gsap-intro-wrapper .song-container h3 {
     font-size: 20px;
     font-weight: 700;
     width: 450px;
@@ -160,14 +160,14 @@ body {
     transform: translateX(-50px);
 }
 
-.song-list {
+.gsap-intro-wrapper .song-list {
     list-style: none;
     display: flex;
     gap: 8px;
     flex-direction: column;
 }
 
-.song-item {
+.gsap-intro-wrapper .song-item {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -176,7 +176,7 @@ body {
     z-index: 2;
 }
 
-.song {
+.gsap-intro-wrapper .song {
     display: grid;
     place-items: center;
     grid-template-columns: 100%;
@@ -189,11 +189,12 @@ body {
     transition: border-color 0.4s ease-in-out;
 }
 
-.song img, .song h4 {
+.gsap-intro-wrapper .song img, 
+.gsap-intro-wrapper .song h4 {
     grid-area: 1 / 1;
 }
 
-.song img {
+.gsap-intro-wrapper .song img {
     display: block;
     width: 100%;
     height: 100%;
@@ -203,7 +204,7 @@ body {
     filter: brightness(0.7) contrast(1.1);
 }
 
-.song h4 {
+.gsap-intro-wrapper .song h4 {
     z-index: 1;
     color: #fcfbf9;
     font-size: 18px;
@@ -212,67 +213,34 @@ body {
     align-self: center;
     pointer-events: none;
     margin: 0;
-}
-
-.play-btn {
-    display: grid;
-    width: 60px;
-    height: 60px;
-    cursor: pointer;
-    border: none;
-    background: none;
-}
-
-.play-btn svg {
-    width: 100%;
-    height: 100%;
-    fill: #fcfbf9;
-}
-
-.song h4, .play-btn {
     opacity: 0.5;
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
                 filter 0.4s ease-in-out, opacity 0.4s ease-in-out;
 }
 
-.song-item:hover .song {
+.gsap-intro-wrapper .song-item:hover .song {
     border-color: rgba(255, 255, 255, 1);  
 }
 
-.song-item:hover .song h4, 
-.song-item:hover .play-btn {
+.gsap-intro-wrapper .song-item:hover .song h4 {
     filter: brightness(1) contrast(1);
     opacity: 1;
-}
-
-.play-btn:hover {
     transform: scale(1.05);
 }
 
-.song-item:hover h4 {
-    transform: scale(1.05);
-}
-
-/* =========================================================
-   SECTION 3: CTA FIX POSITION & ALIGNMENT
-   ========================================================= */
-
-/* =========================================================
-   SECTION 3: RATA TENGAH PRESISI (SIMETRIS KIRI & KANAN)
-   ========================================================= */
-
-.opening.cta {
+/* SECTION 3: CTA */
+.gsap-intro-wrapper .opening.cta {
     position: relative;
     width: 100vw;
     height: 100vh;
     display: flex;
-    justify-content: center; /* Memastikan isi rata tengah horizontal */
-    align-items: center;    /* Memastikan isi rata tengah vertikal */
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
     background-color: #1a1917;
 }
 
-.cta_container {
+.gsap-intro-wrapper .cta_container {
     position: relative;
     z-index: 2;
     display: flex;
@@ -285,10 +253,10 @@ body {
     max-width: 600px;      
     margin: 0 auto;         
     margin-top: 32px;
-    
     transform: none; 
 }
-.cta_vinyl {
+
+.gsap-intro-wrapper .cta_vinyl {
     position: relative;
     width: 300px;
     aspect-ratio: 1;
@@ -299,20 +267,21 @@ body {
         0 0 30px rgba(212, 175, 55, 0.45),
         0 20px 40px rgba(0, 0, 0, 0.7);
     overflow: hidden;
-    background: #0d0d0d;      /* isi sisa celah dengan hitam */
+    background: #0d0d0d;
 }
 
-.cta_vinyl_img {
+.gsap-intro-wrapper .cta_vinyl_img {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 130%;              /* ubah di sini: 120%, 130%, 140% */
+    width: 130%;
     height: 130%;
-    max-width: none;          /* penting: tanpa ini gambar tidak bisa lebih besar dari kotak */
+    max-width: none;
     object-fit: contain;
     transform: translate(-50%, -50%);
 }
-.cta_button {
+
+.gsap-intro-wrapper .cta_button {
     display: inline-block;
     padding: 1.2rem 3.5rem;
     font-family: 'Cinzel', 'Georgia', serif;
@@ -323,16 +292,13 @@ body {
     text-transform: uppercase;
     letter-spacing: 2px;
     text-align: center;
-    
     background: linear-gradient(180deg, #5c2c16 0%, #3b1a0e 50%, #240f07 100%);
     border: 2px solid #d4af37;
     border-radius: 50px;
-    
-    box-shadow: inset 0 2px px rgba(255, 235, 170, 0.4),
+    box-shadow: inset 0 2px 4px rgba(255, 235, 170, 0.4),
                 inset 0 -2px 4px rgba(0, 0, 0, 0.8),
                 0 10px 25px rgba(0, 0, 0, 0.7),
                 0 0 15px rgba(212, 175, 55, 0.2);
-                
     cursor: pointer;
     backdrop-filter: blur(4px);
 }
