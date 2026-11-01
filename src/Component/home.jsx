@@ -49,8 +49,17 @@ export default function Home(){
     if(error == true) return <div className="text-center text-2xl font-cinzel text-[#a58141]">Error, terdapat masalah di backend</div>
 
     return (
+        
         <section className="min-h-screen bg-[#ffffff] font-cinzel">
-            <div className="p-8">
+            <div>
+                <div className="w-full relative h-[80vh] overflow-hidden flex justify-center items-center">   
+                    <img className = "w-full h-full absolute inset-0 filter brightness-45 flex-none object-cover object-[center_70%]" src="public/header.webp"/>
+                    <div className="absolute flex flex-col items-center gap-6">
+                        <h1 className="text-4xl font-bold">Providing high-quality vinyl</h1>
+                        <h3 className="text-3xl font-bold">Discover curated collection and rare pressings</h3>
+                        <button className="border-3 border-[#a58141] mt-4 p-4 pl-8 pr-8 text-3xl rounded-full cursor-pointer transition-all duration-300 ease-in-out hover:bg-[#a58141] hover:scale-103">Shop Collection</button>
+                    </div>
+                </div>
                 <div className="w-full h-20 text-[#a58141] flex flex-row justify-between p-8 text-3xl">
                     <span className="select-none">Hot Product!</span>
                     <div className="flex flex-row gap-2 cursor-pointer cursor-pointer select-none">
