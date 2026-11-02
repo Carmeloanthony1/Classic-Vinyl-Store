@@ -11,7 +11,7 @@ export default function Detail() {
             try {
                 const response = await fetch(`http://localhost:8000/api/products/${id}`);
                 if (!response.ok) {
-                    throw new Error("Terdapat masalah saat ingin mengambil data detail produk", Error);
+                    throw new Error("Terdapat masalah saat ingin mengambil data detail produk");
                 }
                 const data = await response.json();
                 setProduct(data);

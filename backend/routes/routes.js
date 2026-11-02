@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 
 // 1. Schema & Model
 const products_schema = new mongoose.Schema({
+    _id: String,
     id: String, 
     artist: String,
     title: String,
@@ -53,5 +54,23 @@ router.get('/categories', async (req, res) => {
     }
 });
 
+router.get('/products/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.collection.findById(id);
 
+        if(!product){
+            return res.status(404).json({ 
+                message: "Gagal mengambil data detail produk" 
+            });
+        }
+
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({
+            message: "Gagal mengambil detail produk",
+            error: error.message
+        });
+    }
+});
 module.exports = router;
