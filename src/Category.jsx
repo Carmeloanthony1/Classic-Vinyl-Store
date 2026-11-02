@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, Link } from "react-router-dom";
 import Search from "./Component/searchbar";
 export default function Category(){
     const { category } = useParams();
@@ -8,6 +8,7 @@ export default function Category(){
     const [error, setError] = useState(false);
     const [search_params, setSearch_params] = useSearchParams();
 
+    
     useEffect(() => {
         const fetch_product = async () => {
             const raw_search = search_params.get("search");
@@ -37,9 +38,11 @@ export default function Category(){
             <div>
             <ul className="grid grid-cols-4">{product_categories.map((product) => (
                 <li key={product._id} className="flex justify-center items-center margin-0 mb-24 gap-3 flex-col">
-                    <div className="border border-gray-300 p-4 rounded-xl hover:scale-105 hover:shadow-2xl hover:border-[#8B6B4A] duration-300">
-                        <img className = "w-80 h-80" src={product.cover}/>
-                    </div>
+                    <Link className = "" to = {`/product/${product._id}`}>
+                        <div className="border border-gray-300 p-4 rounded-xl hover:scale-105 hover:shadow-2xl hover:border-[#8B6B4A] duration-300">
+                            <img onClick = ""className = "w-80 h-80" src={product.cover}/>
+                        </div>
+                    </Link>
                 </li>
             ))}
             </ul>
