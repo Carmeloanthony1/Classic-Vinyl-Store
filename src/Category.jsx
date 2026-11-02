@@ -37,8 +37,8 @@ export default function Category(){
             </div>
             <div>
             <ul className="grid grid-cols-4">{product_categories.map((product) => (
-                <li key={product._id} className="flex justify-center items-center margin-0 mb-24 gap-3 flex-col">
-                    <Link className = "" to = {`/product/${product._id}`}>
+                <li key={product.id} className="flex justify-center items-center margin-0 mb-24 gap-3 flex-col">
+                    <Link className = "" to = {`/product/${product.id}`}>
                         <div className="border border-gray-300 p-4 rounded-xl hover:scale-105 hover:shadow-2xl hover:border-[#8B6B4A] duration-300">
                             <img onClick = ""className = "w-80 h-80" src={product.cover}/>
                         </div>

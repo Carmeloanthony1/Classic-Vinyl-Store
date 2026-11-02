@@ -52,4 +52,6 @@ router.get('/categories', async (req, res) => {
         res.status(500).json({ message: "Gagal mengambil data kategori", error : error.message});
     }
 });
+
+
 module.exports = router;

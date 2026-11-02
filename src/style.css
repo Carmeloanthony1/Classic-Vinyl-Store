@@ -307,3 +307,7 @@
     0%, 100% { box-shadow: 0 0 10px rgba(212,175,55,.7), 0 0 26px rgba(212,175,55,.35), 0 20px 40px rgba(0,0,0,.7); }
     50%      { box-shadow: 0 0 14px rgba(212,175,55,1),  0 0 40px rgba(212,175,55,.6),  0 20px 40px rgba(0,0,0,.7); }
 }
+
+#detail {
+  overflow : hidden;
+}
