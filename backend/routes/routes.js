@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 
 // 1. Schema & Model
 const products_schema = new mongoose.Schema({
-    _id: String,
     id: String, 
     artist: String,
     title: String,
@@ -57,7 +56,7 @@ router.get('/categories', async (req, res) => {
 router.get('/products/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const product = await Product.collection.findById(id);
+        const product = await Product.findById(id);
 
         if(!product){
             return res.status(404).json({ 
