@@ -5,6 +5,7 @@ export default function Detail() {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [quantity, setQuantity] = useState("1");
 
     useEffect(() => {
         const fetch_detail = async () => {
@@ -44,9 +45,18 @@ export default function Detail() {
                             <div className="w-full md:w-[35%] flex items-center justify-center md:p-12">
                                 <img className = "w-145 h-145 object-contain" src={product.cover}/>
                             </div>
-                            <div className="flex-1 flex flex-col rounded-xl w-[80%] w-full text-black bg-[#ffffff] pt-8 pb-8 gap-2">
+                            <div className="flex-1 flex flex-col rounded-xl w-[80%] w-full text-black bg-[#ffffff] pt-12 pb-12 gap-4">
                                 <h1 className="text-4xl font-bold">{product.title}</h1>
-                                <h3 className="border-2 p-2 pl-4 pr-4 w-fit text-2xl">Rp {product.price}</h3>
+                                <h3 className="border-2 p-8 rounded-lg w-fit text-4xl font-bold">Rp {product.price}</h3>
+                                <h3 className="text-2xl font-bold">Potongan</h3>
+                                <h3 className="text-2xl font-bold">Artist : {product.artist}</h3>
+                                <h3 className="flex flex-row text-2xl font-bold gap-3 items-center">Kuantitas : 
+                                    <div className="flex flex-row">
+                                        <button className="p-3 bg-[#dfb58d]">-</button>
+                                        <span className="p-2 pl-8 pr-8 bg-[#ffffff]">{quantity}</span>
+                                        <button className="p-3 bg-[#dfb58d]">+</button>
+                                    </div>
+                                </h3>
                             </div>
                         </div>
                     </div>

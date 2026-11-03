@@ -9,7 +9,7 @@ export default function App(){
   const location = useLocation();
   return (
     <div>  
-      {location.pathname !== "/" || location.pathname !== "/product/:id" && <Nav/>}
+      {location.pathname !== "/home" || location.pathname !== "/product/:id" && <Nav/>}
       <div className="flex-1 min-h-0">
         <Routes>
           <Route path="/" element = {<Gsap/>}/>
