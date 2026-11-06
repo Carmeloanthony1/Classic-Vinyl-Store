@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import List_song from "./list_song";
 export default function Detail() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
@@ -80,6 +81,9 @@ export default function Detail() {
                                         <h3>Beli Sekarang</h3>
                                     </button>
                                 </div>
+                            </div>
+                            <div className="flex flex-1 pl-8">
+                                <List_song/>
                             </div>
                         </div>
                     </div>
