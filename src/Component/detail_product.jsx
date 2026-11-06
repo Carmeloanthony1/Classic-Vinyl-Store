@@ -5,7 +5,7 @@ export default function Detail() {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
-    const [quantity, setQuantity] = useState("1");
+    const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
         const fetch_detail = async () => {
@@ -27,6 +27,18 @@ export default function Detail() {
         fetch_detail();
     }, [id]);
 
+    const tambah = () =>  {
+        setQuantity(quantity + 1);
+    }
+
+    const kurang = () => {
+        if(quantity <= 1){
+            alert("Tidak bisa mengurangi produk hingga kurang dari 1");
+        } else {
+            setQuantity(quantity - 1);
+        }
+    }
+
     if (loading) return <div className="p-8 text-center text-[#a58141]">Loading bro</div>;
     if (error || !product) return <div className="p-8 text-center text-red-500">Produk tidak ditemukan!</div>;
     return(
@@ -41,7 +53,7 @@ export default function Detail() {
                         </Link>
                     </div>
                     <div className="bg-[#ffffff] flex-1 w-full rounded-xl overflow-y-auto">
-                        <div className="flex flex-col md:flex-row  gap-8 h-full">
+                        <div className="flex flex-col md:flex-row gap-8 h-full items-center">
                             <div className="w-full md:w-[35%] flex items-center justify-center md:p-12">
                                 <img className = "w-145 h-145 object-contain" src={product.cover}/>
                             </div>
@@ -52,11 +64,20 @@ export default function Detail() {
                                 <h3 className="text-2xl font-bold">Artist : {product.artist}</h3>
                                 <h3 className="flex flex-row text-2xl font-bold gap-3 items-center">Kuantitas : 
                                     <div className="flex flex-row">
-                                        <button className="p-3 bg-[#dfb58d]">-</button>
+                                        <button onClick = {kurang} className="p-3 bg-[#dfb58d]">-</button>
                                         <span className="p-2 pl-8 pr-8 bg-[#ffffff]">{quantity}</span>
-                                        <button className="p-3 bg-[#dfb58d]">+</button>
+                                        <button onClick = {tambah} className="p-3 bg-[#dfb58d]">+</button>
                                     </div>
                                 </h3>
+                                <button className="flex flex-row items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                        <path d="M24 48C10.7 48 0 58.7 0 72C0 85.3 10.7 96 24 96L69.3 96C73.2 96 76.5 98.8 77.2 102.6L129.3 388.9C135.5 423.1 165.3 448 200.1 448L456 448C469.3 448 480 437.3 480 424C480 410.7 469.3 400 456 400L200.1 400C188.5 400 178.6 391.7 176.5 380.3L171.4 352L475 352C505.8 352 532.2 330.1 537.9 299.8L568.9 133.9C572.6 114.2 557.5 96 537.4 96L124.7 96L124.3 94C119.5 67.4 96.3 48 69.2 48L24 48zM208 576C234.5 576 256 554.5 256 528C256 501.5 234.5 480 208 480C181.5 480 160 501.5 160 528C160 554.5 181.5 576 208 576zM432 576C458.5 576 480 554.5 480 528C480 501.5 458.5 480 432 480C405.5 480 384 501.5 384 528C384 554.5 405.5 576 432 576z"/>
+                                    </svg>
+                                    <h3>Masukan Keranjang</h3>
+                                </button>
+                                <button className="flex flex-row items-center">
+                                    <h3>Beli Sekarang</h3>
+                                </button>
                             </div>
                         </div>
                     </div>
