@@ -19,9 +19,15 @@ const category_schema = new mongoose.Schema({
     imageBanner: String
 });
 
+const song_schema = new mongoose.Schema({
+    title: String,
+    album_id: String
+});
+
 // Namai modelnya dengan 'Product' (tanpa s) agar sesuai dengan panggilan di bawah
 const Product = mongoose.model('Product', products_schema, "products");
 const Category = mongoose.model('Category', category_schema, "categories");
+const Song = mongoose.model('Song', song_schema, "songs");
 
 router.get('/products', async (req, res) => {
     try {
@@ -72,4 +78,18 @@ router.get('/products/:id', async (req, res) => {
         });
     }
 });
+
+router.get('/products/:id/songs', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const lagu_album = await Song.find({ album_id: id});
+        res.json(lagu_album);
+    } catch (error) {
+        res.status(500).json({
+            message: "Gagal mengambil list album", 
+            error: error.message
+        });
+    }
+});
+
 module.exports = router;
