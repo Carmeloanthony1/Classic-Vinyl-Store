@@ -5,14 +5,16 @@ import Home from "./Component/home";
 import Gsap from "./Component/gsap_intro";
 import Category from "./Category";
 import Detail from "./Component/detail_product";
+import BuySingle from "./Component/buy_single";
 export default function App(){
   const location = useLocation();
   return (
     <div>  
-      {location.pathname !== "/home" || location.pathname !== "/product/:id" && <Nav/>}
+      {location.pathname !== "/Home" || location.pathname !== "/product/:id" && <Nav/>}
       <div className="flex-1 min-h-0">
         <Routes>
-          <Route path="/" element = {<Gsap/>}/>
+          <Route path = "/" element = {<Gsap/>}/>
+          <Route path = "/Payment" element = {<BuySingle/>}/>
           <Route path = "/Home" element = {<Home/>}/>
           <Route path = "/category/:category" element = {<Category/>}/>
           <Route path = "/product/:id" element = {<Detail/>}/>
