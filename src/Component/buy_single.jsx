@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
 const payment_method = [
     { id: "bca", name: "Transfer BCA", account: "" },
     { id: "qris", name: "QRIS", img: "" }, 
@@ -10,7 +11,7 @@ export default function BuySingle(){
     return (
         <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
             <img className = "absolute w-full h-full inset-0 z-0" src="/background_payment.webp"/>
-            <div className="bg-[#dfb58d] rounded-xl flex flex-col z-10 w-[55%] shadow-2xl">
+            <div className="bg-[#dfb58d] rounded-xl flex flex-col z-10 w-[55%]">
                 <div className="flex flex-col">
                     <div className="bg-[#dfb58d] rounded-xl flex flex-row p-5 items-center justify-between">
                         <div className="flex flex-row items-center gap-4">
@@ -23,8 +24,17 @@ export default function BuySingle(){
                             </svg>
                         </button>
                     </div>
+                    <div className="bg-[#ffffff] flex flex-col rounded-xl w-full w-[55%] shadow-2xl p-4">
+                        <div className="bg-[#fee7d1] rounded-xl text-black p-3 flex flex-col gap-2">
+                            <h2 className="font-bold text-3xl">Total</h2>
+                            <h1 className="font-bold text-4xl">Rp </h1>
+                            <p className="text-xl">Order ID : </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        
     );
 }
