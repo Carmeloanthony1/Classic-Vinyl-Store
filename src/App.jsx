@@ -6,11 +6,13 @@ import Gsap from "./Component/gsap_intro";
 import Category from "./Category";
 import Detail from "./Component/detail_product";
 import BuySingle from "./Component/buy_single";
+import Signup from "./Signup";
 export default function App(){
   const location = useLocation();
 
   const halaman_tanpanav = 
-    location.pathname === "/" || location.pathname === "/Payment" || location.pathname.startsWith("/product/");
+    location.pathname === "/" || location.pathname === "/Payment" || location.pathname.startsWith("/product/") ||
+    location.pathname === "/Signup";
 
   return (
     <div>  
@@ -18,6 +20,7 @@ export default function App(){
       <div className="flex-1 min-h-0">
         <Routes>
           <Route path = "/" element = {<Gsap/>}/>
+          <Route path = "/Signup" element = {<Signup/>}/>
           <Route path = "/Payment" element = {<BuySingle/>}/>
           <Route path = "/Home" element = {<Home/>}/>
           <Route path = "/category/:category" element = {<Category/>}/>

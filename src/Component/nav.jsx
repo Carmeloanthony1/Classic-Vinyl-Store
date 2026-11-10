@@ -12,7 +12,7 @@ export default function Nav(){
         <li className="text-[#a58141] font-bold cursor-pointer">About</li>
         <li className="text-[#a58141] font-bold cursor-pointer">Order</li>
       </ol>
-      <button className="border-2 border-[#a58141] rounded-full text-[#a58141] font-bold cursor-pointer p-2 py-2">Contact us</button>
+      <a href = "/Signup" className="border-2 border-[#a58141] rounded-full text-[#a58141] font-bold cursor-pointer p-2 py-2 pl-4 pr-4">Login</a>
     </nav>
   );
 }
