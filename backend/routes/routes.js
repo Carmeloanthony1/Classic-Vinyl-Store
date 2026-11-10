@@ -24,10 +24,17 @@ const song_schema = new mongoose.Schema({
     album_id: String
 });
 
+const user_schema = new mongoose.Schema({
+    name: String,
+    email: String,
+    password: String
+});
+
 // Namai modelnya dengan 'Product' (tanpa s) agar sesuai dengan panggilan di bawah
 const Product = mongoose.model('Product', products_schema, "products");
 const Category = mongoose.model('Category', category_schema, "categories");
 const Song = mongoose.model('Song', song_schema, "songs");
+const User = mongoose.model('User', user_schema, "users");
 
 router.get('/products', async (req, res) => {
     try {
@@ -89,6 +96,22 @@ router.get('/products/:id/songs', async (req, res) => {
             message: "Gagal mengambil list album", 
             error: error.message
         });
+    }
+});
+
+router.post('/signup', async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+        const userExist = await User.findOne({email});
+        if(userExist){
+            return res.status(400).json({ message: "Email sudah terdaftar" });
+        }
+
+        const new_user = new User({ name, email, password });
+        await new_user.save();
+        res.status(201).json({ message: "Pendaftaran Berhasil" });
+    } catch (error) {
+        res.status(500).json({ message: "Gagal mendaftar", error: error.message });
     }
 });
 
