@@ -8,6 +8,8 @@ const payment_method = [
 
 export default function BuySingle(){
     const [selected_payment, setSelected_payment] = useState();
+    const [order, setOrder] = useState();
+
     return (
         <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
             <img className = "absolute w-full h-full inset-0 z-0" src="/background_payment.webp"/>

@@ -40,6 +40,10 @@ export default function Detail() {
         }
     }
 
+    const order = () => {
+        
+    }
+
     if (loading) return <div className="p-8 text-center text-[#a58141]">Loading bro</div>;
     if (error || !product) return <div className="p-8 text-center text-red-500">Produk tidak ditemukan!</div>;
     return(
@@ -83,7 +87,7 @@ export default function Detail() {
                                         </svg>
                                         <h3>Masukan Keranjang</h3>
                                     </Link>
-                                    <Link to = "/Payment" className="flex-1 flex-row items-center bg-[#dfb58d] font-bold rounded-md p-3 hover:bg-[#cda37b] hover:scale-103 duration-300">
+                                    <Link to = "/Payment" onClick= {order} className="flex-1 flex-row items-center bg-[#dfb58d] font-bold rounded-md p-3 hover:bg-[#cda37b] hover:scale-103 duration-300">
                                         <h3>Beli Sekarang</h3>
                                     </Link>
                                 </div>

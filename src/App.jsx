@@ -8,9 +8,13 @@ import Detail from "./Component/detail_product";
 import BuySingle from "./Component/buy_single";
 export default function App(){
   const location = useLocation();
+
+  const halaman_tanpanav = 
+    location.pathname === "/" || location.pathname === "/Payment" || location.pathname.startsWith("/product/");
+
   return (
     <div>  
-      {location.pathname !== "/Home" || location.pathname !== "/product/:id" && <Nav/>}
+      {!halaman_tanpanav && <Nav/>}
       <div className="flex-1 min-h-0">
         <Routes>
           <Route path = "/" element = {<Gsap/>}/>
