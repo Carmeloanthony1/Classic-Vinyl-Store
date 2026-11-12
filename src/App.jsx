@@ -7,13 +7,13 @@ import Category from "./Category";
 import Detail from "./Component/detail_product";
 import BuySingle from "./Component/buy_single";
 import Signup from "./Signup";
+import Login from "./Login";
 export default function App(){
   const location = useLocation();
 
   const halaman_tanpanav = 
     location.pathname === "/" || location.pathname === "/Payment" || location.pathname.startsWith("/product/") ||
-    location.pathname === "/Signup";
-
+    location.pathname === "/Signup" || location.pathname === "/Login";
   return (
     <div>  
       {!halaman_tanpanav && <Nav/>}
@@ -21,6 +21,7 @@ export default function App(){
         <Routes>
           <Route path = "/" element = {<Gsap/>}/>
           <Route path = "/Signup" element = {<Signup/>}/>
+          <Route path = "/Login" element = {<Login/>}/>
           <Route path = "/Payment" element = {<BuySingle/>}/>
           <Route path = "/Home" element = {<Home/>}/>
           <Route path = "/category/:category" element = {<Category/>}/>
