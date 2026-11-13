@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -22,8 +22,10 @@ export default function Login() {
             const data = await response.json();
 
             if(response.ok){
-                alert("Berhasil mendaftar");
-                navigate("/Login");
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("user", JSON.stringify(data.user));
+                alert("Berhasil masuk");
+                navigate("/Home");
             } else {
                 alert(data.message);
             }
@@ -31,7 +33,7 @@ export default function Login() {
             console.error("Error", error);
             alert("Terjadi kesalahan server");
         } finally {
-            setIsloading(true);
+            setIsloading(false);
         }
     };
 
@@ -58,15 +60,15 @@ export default function Login() {
                     </h2>
                 </div>
 
-                <div className="flex items-center gap-2 text-white drop-shadow-md">
-                    <span className="font-medium hidden md:block">Already have an account?</span>
+                <Link to = "/Signup" className="flex items-center gap-2 text-white drop-shadow-md">
+                    <span className="font-medium hidden md:block">don't have an account yet?</span>
                     <div className="flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform font-bold">
-                        <span className="text-lg">Login</span>
+                        <span className="text-lg">Sign up</span>
                         <svg className="w-5 h-5 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                             <path d="M598.6 342.6C611.1 330.1 611.1 309.8 598.6 297.3L470.6 169.3C458.1 156.8 437.8 156.8 425.3 169.3C412.8 181.8 412.8 202.1 425.3 214.6L498.7 288L64 288C46.3 288 32 302.3 32 320C32 337.7 46.3 352 64 352L498.7 352L425.3 425.4C412.8 437.9 412.8 458.2 425.3 470.7C437.8 483.2 458.1 483.2 470.6 470.7L598.6 342.7z"/>
                         </svg>
                     </div>
-                </div>
+                </Link>
             </div>
 
             <div className="relative z-10 w-full max-w-[420px] bg-[#f5ece1]/70 backdrop-blur-2xl border border-white/60 rounded-[40px] shadow-[0_8px_32px_0_rgba(0,0,0,0.2)] p-8 flex flex-col items-center mt-16 md:mt-0">
@@ -89,6 +91,7 @@ export default function Login() {
                 {/* Form Inputs */}
                 <form onSubmit = {handleSubmit} className="w-full flex flex-col gap-4 mb-6">
                     
+
                     {/* Email Address */}
                     <div className="flex items-center w-full bg-white/50 border border-[#d4c4b5] rounded-full px-4 py-3 focus-within:ring-2 focus-within:ring-[#dcb38b] transition-all">
                         <svg className="w-5 h-5 fill-[#8a7a72] shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
@@ -111,13 +114,12 @@ export default function Login() {
                             placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required
                             className="w-full bg-transparent outline-none ml-3 text-[#3e2a1e] placeholder-[#8a7a72] font-medium"
                         />
-                        {/* Ikon Mata (Eye) */}
                         <button type="button" onClick={() => setShowpassword(!showpassword)}> {showpassword ? (
                             <svg className="w-5 h-5 fill-[#8a7a72] shrink-0 cursor-pointer hover:fill-[#3e2a1e]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                                 <path d="M320 96C239.2 96 174.5 132.8 127.4 176.6C80.6 220.1 49.3 272 34.4 307.7C31.1 315.6 31.1 324.4 34.4 332.3C49.3 368 80.6 420 127.4 463.4C174.5 507.1 239.2 544 320 544C400.8 544 465.5 507.2 512.6 463.4C559.4 419.9 590.7 368 605.6 332.3C608.9 324.4 608.9 315.6 605.6 307.7C590.7 272 559.4 220 512.6 176.6C465.5 132.9 400.8 96 320 96zM176 320C176 240.5 240.5 176 320 176C399.5 176 464 240.5 464 320C464 399.5 399.5 464 320 464C240.5 464 176 399.5 176 320zM320 256C320 291.3 291.3 320 256 320C244.5 320 233.7 317 224.3 311.6C223.3 322.5 224.2 333.7 227.2 344.8C240.9 396 293.6 426.4 344.8 412.7C396 399 426.4 346.3 412.7 295.1C400.5 249.4 357.2 220.3 311.6 224.3C316.9 233.6 320 244.4 320 256z"/>
                             </svg> 
                             ) : ( 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg className="w-5 h-5 fill-[#8a7a72] shrink-0 cursor-pointer hover:fill-[#3e2a1e]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokewidth="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
                                 <line x1="1" y1="1" x2="23" y2="23"></line>
                             </svg> 
@@ -126,7 +128,7 @@ export default function Login() {
                     </div>
                             
                     <button className="w-full bg-[#dcb38b] hover:bg-[#cba17a] text-[#3e2a1e] font-bold text-lg py-3 rounded-full flex items-center justify-center gap-2 transition-all shadow-md mb-6">
-                        Sign Up
+                        Login
                     </button>
 
                 </form>

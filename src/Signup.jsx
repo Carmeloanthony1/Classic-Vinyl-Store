@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function Signup() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -61,7 +61,7 @@ export default function Signup() {
                     </h2>
                 </div>
 
-                <div className="flex items-center gap-2 text-white drop-shadow-md">
+                <Link to = "/Login" className="flex items-center gap-2 text-white drop-shadow-md">
                     <span className="font-medium hidden md:block">Already have an account?</span>
                     <div className="flex items-center gap-1 cursor-pointer hover:scale-105 transition-transform font-bold">
                         <span className="text-lg">Login</span>
@@ -69,7 +69,7 @@ export default function Signup() {
                             <path d="M598.6 342.6C611.1 330.1 611.1 309.8 598.6 297.3L470.6 169.3C458.1 156.8 437.8 156.8 425.3 169.3C412.8 181.8 412.8 202.1 425.3 214.6L498.7 288L64 288C46.3 288 32 302.3 32 320C32 337.7 46.3 352 64 352L498.7 352L425.3 425.4C412.8 437.9 412.8 458.2 425.3 470.7C437.8 483.2 458.1 483.2 470.6 470.7L598.6 342.7z"/>
                         </svg>
                     </div>
-                </div>
+                </Link>
             </div>
 
             <div className="relative z-10 w-full max-w-[420px] bg-[#f5ece1]/70 backdrop-blur-2xl border border-white/60 rounded-[40px] shadow-[0_8px_32px_0_rgba(0,0,0,0.2)] p-8 flex flex-col items-center mt-16 md:mt-0">

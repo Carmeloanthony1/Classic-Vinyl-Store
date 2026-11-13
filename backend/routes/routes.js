@@ -111,7 +111,7 @@ router.post('/signup', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashed_password = await bcrypt.hash(password, salt);
 
-        const new_user = new User({ name, email, hashed_password });
+        const new_user = new User({ name, email, password: hashed_password });
         await new_user.save();
         res.status(201).json({ message: "Pendaftaran Berhasil" });
     } catch (error) {
