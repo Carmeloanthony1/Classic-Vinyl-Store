@@ -29,7 +29,8 @@ const song_schema = new mongoose.Schema({
 const user_schema = new mongoose.Schema({
     name: String,
     email: String,
-    password: String
+    password: String,
+    refresh_token: String
 });
 
 // Namai modelnya dengan 'Product' (tanpa s) agar sesuai dengan panggilan di bawah
@@ -132,15 +133,25 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: "Password belum sesuai"});
         }
 
-        const token = jwt.sign(
-          { id: user._id },
-          process.env.JWT_SECRET, 
-          { expiresIn: "1d"}
+        const access_token = jwt.sign(
+            { id: user._id },
+            process.env.JWT_SECRET,
+            { expiresIN: "15m"}   
         );
 
+        const refresh_token = jwt.sign(
+          { id: user._id },
+          process.env.JWT_REFRESH_SECRET, 
+          { expiresIn: "7d"}
+        );
+
+        user.refresh_token = refresh_token;
+        await user.save();
+        //buat update ke db
+        
         res.status(200).json({ 
             message: "Login Berhasil", 
-            token: token,
+            refresh_token: refresh_token,
             user: {
                 id: user._id,
                 name: user.name,
@@ -151,5 +162,30 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ message: "Gagal login", error: error.message });
     }
     
+});
+
+
+router.post('/refresh-token', async (req, res) => {
+    try {
+        const { refresh_token } = req.body;
+        if (!refresh_token) return res.status(401).json({ message: "Refresh token tidak ada"});
+        
+        const user = await User.findOne({ refresh_token: refresh_token});
+        if(!user) return res.status(403).json({message: "Refresh token tidak valid, silahkan login"});
+
+        jwt.verify(refresh_token, process.env.JWT_REFRESH_SECRET, (err, decoded) => {
+            if (err) return res.status(403).json({ message: "Refresh token kadarluasa" });
+
+            const newaccesstoken = jwt.sign(
+                { id: user._id },
+                process.env.JWT_SECRET,
+                { expiresIN: "15m" }
+            );
+
+            res.status(200).json({ access_token: newaccesstoken });
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Gagal refresh token", error: error.message });
+    }
 });
 module.exports = router;
