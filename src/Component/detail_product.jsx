@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import List_song from "./list_song";
 export default function Detail() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -41,7 +42,7 @@ export default function Detail() {
     }
 
     const order = () => {
-        
+        Navigate(`/Payment/${id}`, { state: {quantity: quantity}});
     }
 
     if (loading) return <div className="p-8 text-center text-[#a58141]">Loading bro</div>;
@@ -87,7 +88,7 @@ export default function Detail() {
                                         </svg>
                                         <h3>Masukan Keranjang</h3>
                                     </Link>
-                                    <Link to = "/Payment" onClick= {order} className="flex-1 flex-row items-center bg-[#dfb58d] font-bold rounded-md p-3 hover:bg-[#cda37b] hover:scale-103 duration-300">
+                                    <Link to = "/Payment/:id" onClick= {order} className="flex-1 flex-row items-center bg-[#dfb58d] font-bold rounded-md p-3 hover:bg-[#cda37b] hover:scale-103 duration-300">
                                         <h3>Beli Sekarang</h3>
                                     </Link>
                                 </div>
