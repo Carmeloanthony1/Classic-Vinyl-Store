@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { verify_token } = require("../middleware/auth");
+const { customAlphabet } = require("nanoid");
 //buat jadi object, soalnya kita akan pakai di banyak fungsi nantinya
 
 // 1. Schema & Model
@@ -35,10 +36,22 @@ const user_schema = new mongoose.Schema({
     refresh_token: String
 });
 
+const order_schema = new mongoose.Schema({
+    order_id: String,
+    user_id: String,
+    product_id: String,
+    quantity: Number,
+    total_price: Number,
+    status: { type: String, default: "Pending" },
+    created: { type: Date, default: Date.now }
+});
+const generate_id = customAlphabet('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 11);
+
 const Product = mongoose.model('Product', products_schema, "products");
 const Category = mongoose.model('Category', category_schema, "categories");
 const Song = mongoose.model('Song', song_schema, "songs");
 const User = mongoose.model('User', user_schema, "users");
+const Order = mongoose.model('Order', order_schema, "orders");
 
 router.get('/products', async (req, res) => {
     try {
@@ -100,6 +113,35 @@ router.get('/products/:id/songs', async (req, res) => {
             message: "Gagal mengambil list album", 
             error: error.message
         });
+    }
+});
+
+router.post('/orders', async (req, res) => {
+    try {
+        const { product_id, quantity } = req.body;
+
+        const product = await Product.findById(product_id);
+        if(!product){
+            return res.status(404).json({message: "Produk tidak di temukan"});
+        }
+
+        const total_price = product.price * quantity;
+        const order_id = `ORD-${generate_id()}`;
+
+        const new_order = new Order({
+            order_id: order_id,
+            product_id: product_id,
+            quantity: quantity,
+            total_price: total_price
+        });
+        await new_order.save();
+
+        res.status(201).json({
+            message: "Order berhasil dibuat",
+            order_id: order_id
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Gagal order", error: error.message });
     }
 });
 
@@ -193,7 +235,7 @@ router.post('/refresh-token', async (req, res) => {
             const newaccesstoken = jwt.sign(
                 { id: user._id },
                 process.env.JWT_SECRET,
-                { expiresIN: "15m" }
+                { expiresIn: "15m" }
             );
 
             res.status(200).json({ access_token: newaccesstoken });

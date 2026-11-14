@@ -8,6 +8,7 @@ export default function Detail() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [quantity, setQuantity] = useState(1);
+    const [isprocess, setIsprocess] = useState(false);
 
     useEffect(() => {
         const fetch_detail = async () => {
@@ -41,8 +42,28 @@ export default function Detail() {
         }
     }
 
-    const order = () => {
-        Navigate(`/Payment/${id}`, { state: {quantity: quantity}});
+    const order = async () => {
+        setIsprocess(true);
+        try {
+            const response = await fetch("http://localhost:8000/api/orders", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ product_id: id, quantity: quantity })
+            });
+
+            const data = await response.json();
+
+            if(response.ok){
+                navigate(`/Payment/${id}/${data.order_id}`);
+            } else {
+                alert("Gagal membuat pesanan");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Terjadi kesalahan server");
+        } finally {
+            setIsprocess(false);
+        }
     }
 
     if (loading) return <div className="p-8 text-center text-[#a58141]">Loading bro</div>;
@@ -88,9 +109,9 @@ export default function Detail() {
                                         </svg>
                                         <h3>Masukan Keranjang</h3>
                                     </Link>
-                                    <Link to = "/Payment/:id" onClick= {order} className="flex-1 flex-row items-center bg-[#dfb58d] font-bold rounded-md p-3 hover:bg-[#cda37b] hover:scale-103 duration-300">
-                                        <h3>Beli Sekarang</h3>
-                                    </Link>
+                                    <button onClick= {order} disabled = {isprocess} className="flex-1 flex-row items-center bg-[#dfb58d] font-bold rounded-md p-3 hover:bg-[#cda37b] hover:scale-103 duration-300">
+                                        {isprocess ? "Memproses..." : "Beli sekarang"}
+                                    </button>
                                 </div>
                             </div>
                             <div className="flex flex-1 pl-8">

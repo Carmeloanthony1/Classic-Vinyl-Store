@@ -22,7 +22,7 @@ export default function App(){
           <Route path = "/" element = {<Gsap/>}/>
           <Route path = "/Signup" element = {<Signup/>}/>
           <Route path = "/Login" element = {<Login/>}/>
-          <Route path = "/Payment/:id" element = {<BuySingle/>}/>
+          <Route path = "/Payment/:id/:order_id" element = {<BuySingle/>}/>
           <Route path = "/Home" element = {<Home/>}/>
           <Route path = "/category/:category" element = {<Category/>}/>
           <Route path = "/product/:id" element = {<Detail/>}/>
