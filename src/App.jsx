@@ -13,7 +13,7 @@ export default function App(){
 
   const halaman_tanpanav = 
     location.pathname === "/" || location.pathname === "/Payment" || location.pathname.startsWith("/product/") ||
-    location.pathname === "/Signup" || location.pathname === "/Login";
+    location.pathname === "/Signup" || location.pathname === "/Login";  
   return (
     <div>  
       {!halaman_tanpanav && <Nav/>}
