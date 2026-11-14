@@ -53,11 +53,15 @@ export default function BuySingle(){
                             </svg>
                         </button>
                     </div>
-                    <div className="bg-[#ffffff] flex flex-col rounded-xl w-full w-[55%] shadow-2xl p-4">
-                        <div className="bg-[#fee7d1] rounded-xl text-black p-3 flex flex-col gap-2">
+                    <div className="bg-[#ffffff] flex flex-col rounded-xl w-full w-[55%] shadow-2xl p-8 gap-6">
+                        <div className="bg-[#fee7d1] rounded-xl text-black p-6 flex flex-col gap-2">
                             <h2 className="font-bold text-3xl">Total</h2>
                             <h1 className="font-bold text-4xl">Rp {totalprice.toLocaleString('id-ID')}</h1>
                             <p className="text-xl">Order ID : {order_id}</p>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <h1 className="text-4xl font-bold text-black">Metode Pembayaran</h1>
+                            <h3 className="text-xl text-black/70">Pilih metode pembayaran yang ingin di lakukan</h3>
                         </div>
                     </div>
                 </div>
