@@ -165,7 +165,19 @@ router.post('/login', async (req, res) => {
     }
     
 });
-
+router.post('/logout', async (req, res) => {
+    try {
+        const { refresh_token } = req.body;
+        if(!refresh_token) {
+            return res.status(400).json({ message: "Refresh token tidak di temukan" });
+        }
+        
+        await User.updateOne({ refresh_token: refresh_token }, { $set: { refresh_token: null}});
+        res.status(200).json({ message: "Log out berhasil" });
+    } catch (error) {
+        res.status(500).json({ message: "Gagal Log out", error: error.message });
+    }
+});
 
 router.post('/refresh-token', async (req, res) => {
     try {
@@ -190,4 +202,5 @@ router.post('/refresh-token', async (req, res) => {
         res.status(500).json({ message: "Gagal refresh token", error: error.message });
     }
 });
+
 module.exports = router;
