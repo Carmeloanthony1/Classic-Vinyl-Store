@@ -3,6 +3,8 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { verify_token } = require("../middleware/auth");
+//buat jadi object, soalnya kita akan pakai di banyak fungsi nantinya
 
 // 1. Schema & Model
 const products_schema = new mongoose.Schema({
@@ -33,7 +35,6 @@ const user_schema = new mongoose.Schema({
     refresh_token: String
 });
 
-// Namai modelnya dengan 'Product' (tanpa s) agar sesuai dengan panggilan di bawah
 const Product = mongoose.model('Product', products_schema, "products");
 const Category = mongoose.model('Category', category_schema, "categories");
 const Song = mongoose.model('Song', song_schema, "songs");
@@ -136,7 +137,7 @@ router.post('/login', async (req, res) => {
         const access_token = jwt.sign(
             { id: user._id },
             process.env.JWT_SECRET,
-            { expiresIN: "15m"}   
+            { expiresIn: "15m"}   
         );
 
         const refresh_token = jwt.sign(
@@ -152,6 +153,7 @@ router.post('/login', async (req, res) => {
         res.status(200).json({ 
             message: "Login Berhasil", 
             refresh_token: refresh_token,
+            access_token: access_token,
             user: {
                 id: user._id,
                 name: user.name,
