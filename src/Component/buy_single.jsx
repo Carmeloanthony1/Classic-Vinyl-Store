@@ -14,6 +14,29 @@ export default function BuySingle(){
     //pengaman jadi quantity nya di hitung dari yang componen sebelumnya atau auto set 1
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetch_product = async () => {
+            try {
+                const response = await fetch(`http://localhost:8000/api/products/${id}`);
+                if(response.ok){
+                    const data = await response.json();
+                    setProduct(data);
+                }
+            } catch (error) {
+                console.error("Gagal mengambil data produk", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetch_product();
+    }, [id]);
+
+    if (loading) return <div className="text-black text-center mt-20 text-2xl">Memuat data...</div>;
+    if (!product) return <div className="text-black text-center mt-20 text-2xl">Produk tidak ditemukan.</div>;
+
+    const totalprice = product.price * quantity;
+
     return (
         <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
             <img className = "absolute w-full h-full inset-0 z-0" src="/background_payment.webp"/>
@@ -33,7 +56,7 @@ export default function BuySingle(){
                     <div className="bg-[#ffffff] flex flex-col rounded-xl w-full w-[55%] shadow-2xl p-4">
                         <div className="bg-[#fee7d1] rounded-xl text-black p-3 flex flex-col gap-2">
                             <h2 className="font-bold text-3xl">Total</h2>
-                            <h1 className="font-bold text-4xl">Rp </h1>
+                            <h1 className="font-bold text-4xl">Rp {totalprice.toLocaleString('id-ID')}</h1>
                             <p className="text-xl">Order ID : {order_id}</p>
                         </div>
                     </div>

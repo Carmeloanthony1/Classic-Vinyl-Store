@@ -12,7 +12,7 @@ export default function App(){
   const location = useLocation();
 
   const halaman_tanpanav = 
-    location.pathname === "/" || location.pathname === "/Payment" || location.pathname.startsWith("/product/") ||
+    location.pathname === "/" || location.pathname === "/Payment/:id/:order_id" || location.pathname.startsWith("/product/") ||
     location.pathname === "/Signup" || location.pathname === "/Login";  
   return (
     <div>  
