@@ -5,9 +5,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { verify_token } = require("../middleware/auth");
 const { customAlphabet } = require("nanoid");
-const { Passport, session } = require("passport");
+const passport = require("passport"); 
 //buat jadi object, soalnya kita akan pakai di banyak fungsi nantinya
-
+const User = require("../models/User");
 // 1. Schema & Model
 const products_schema = new mongoose.Schema({
     id: String, 
@@ -30,13 +30,6 @@ const song_schema = new mongoose.Schema({
     album_id: String
 });
 
-const user_schema = new mongoose.Schema({
-    name: String,
-    email: String,
-    password: String,
-    refresh_token: String
-});
-
 const order_schema = new mongoose.Schema({
     order_id: String,
     user_id: String,
@@ -51,7 +44,6 @@ const generate_id = customAlphabet('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
 const Product = mongoose.model('Product', products_schema, "products");
 const Category = mongoose.model('Category', category_schema, "categories");
 const Song = mongoose.model('Song', song_schema, "songs");
-const User = mongoose.model('User', user_schema, "users");
 const Order = mongoose.model('Order', order_schema, "orders");
 
 router.get('/products', async (req, res) => {
@@ -275,4 +267,5 @@ router.get("/auth/google/callback", passport.authenticate("google", {session:fal
     }
 );
 
+require("../config/passport"); 
 module.exports = router;

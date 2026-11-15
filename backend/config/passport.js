@@ -1,15 +1,15 @@
 const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").GoogleStrategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const mongoose = require("mongoose");
 
-const user = mongoose.model("user");
+const User = require("../models/User");
 
 passport.use(
     new GoogleStrategy(
         {
-            clientID = process.env.GOOGLE_CLIENT_ID,
-            clientSECRET = process.env.GOOGLE_SECRET,
-            callbackURL = process.env.GOOGLE_CALLBACK,
+            clientID : process.env.GOOGLE_CLIENT,
+            clientSECRET : process.env.GOOGLE_SECRET,
+            callbackURL : process.env.GOOGLE_CALLBACK,
         }, 
         async (accessToken, refreshToken, profile, done) => {
             try {
