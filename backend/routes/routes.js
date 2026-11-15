@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { verify_token } = require("../middleware/auth");
 const { customAlphabet } = require("nanoid");
+const { Passport, session } = require("passport");
 //buat jadi object, soalnya kita akan pakai di banyak fungsi nantinya
 
 // 1. Schema & Model
@@ -244,5 +245,34 @@ router.post('/refresh-token', async (req, res) => {
         res.status(500).json({ message: "Gagal refresh token", error: error.message });
     }
 });
+
+router.get("/auth/google", passport.authenticate("google", {scope: ["profile", "email"]}));
+
+router.get("/auth/google/callback", passport.authenticate("google", {session:false, failureRedirect: "http://localhost:5173/Login"}), 
+    async (req, res) => {
+        try {
+            const user = req.user;
+
+            const access_token = jwt.sign(
+               { id: user._id },
+               process.env.JWT_SECRET,
+               { expiresIn: "15m" }
+            );
+
+             const refresh_token = jwt.sign(
+               { id: user._id },
+               process.env.JWT_REFRESH_SECRET,
+               { expiresIn: "7d" }
+            );
+
+            user.refresh_token = refresh_token;
+            await user.save();
+
+            res.redirect(`http://localhost:5173/Home?token=${access_token}&refresh=${refresh_token}`);
+        } catch (error) {
+            res.redirect("http://localhost:5173/Login?error=server");
+        }
+    }
+);
 
 module.exports = router;
