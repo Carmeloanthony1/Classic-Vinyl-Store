@@ -8,6 +8,7 @@ import Detail from "./Component/detail_product";
 import BuySingle from "./Component/buy_single";
 import Signup from "./Signup";
 import Login from "./Login";
+import Cart from "./Component/cart";
 export default function App(){
   const location = useLocation();
 
@@ -26,6 +27,7 @@ export default function App(){
           <Route path = "/Home" element = {<Home/>}/>
           <Route path = "/category/:category" element = {<Category/>}/>
           <Route path = "/product/:id" element = {<Detail/>}/>
+          <Route path = "/Cart" element= {<Cart/>}/>
         </Routes>
       </div>
     </div>
