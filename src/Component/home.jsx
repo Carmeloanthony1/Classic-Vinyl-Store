@@ -10,7 +10,6 @@ export default function Home(){
     const navigate = useNavigate();
     const location = useLocation(); 
 
-    // 1. USE-EFFECT KHUSUS UNTUK MENANGKAP TOKEN GOOGLE
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const token = params.get("token");
@@ -19,16 +18,11 @@ export default function Home(){
         if(token && refresh) {
             localStorage.setItem("access_token", token);
             localStorage.setItem("refresh_token", refresh);
-
-            // Bersihkan URL dari parameter token agar rapi
             navigate("/Home", { replace: true });
-
-            // Reload halaman agar Navbar mendeteksi user sudah login
             window.location.reload();
         }
     }, [location, navigate]);
 
-    // 2. USE-EFFECT UNTUK FETCH DATA PRODUK & KATEGORI
     useEffect(() => {
         const fetch_products = async () => {
             try {
@@ -86,16 +80,18 @@ export default function Home(){
                     <span className="select-none font-bold">Hot Product!</span>
                 </div>
                 
-                <div className="flex flex-wrap gap-6 p-8 w-full justify-center">
-                    {hot_product.map((product) => (
-                        <div key={product._id} className="w-[250px] min-w-0 group cursor-pointer" onClick={() => navigate(`/product/${product._id}`)}>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 p-8 w-full">
+                    {hot_product.slice(0, 5).map((product) => ( 
+                        <div key={product._id} className="w-full group cursor-pointer" onClick={() => navigate(`/product/${product._id}`)}>
                             
-                            <div className="relative aspect-square rounded-3xl bg-white border border-gray-300 shadow-lg hover:shadow-2xl hover:border-[#8B6B4A] transition-all duration-300 flex justify-center overflow-hidden">
+                            <div className="relative aspect-square rounded-2xl bg-white border border-gray-300 shadow-lg hover:shadow-2xl hover:border-[#8B6B4A] transition-all duration-300 flex justify-center overflow-hidden">
+                                
                                 {product.bestSeller && (
-                                    <div className="absolute rounded-full px-4 py-1 bg-[#a58141] text-[#ffffe6] text-sm font-bold -top-1 left-1/2 -translate-x-1/2 z-10 select-none uppercase tracking-widest border-2 border-white shadow-sm mt-4">
+                                    <div className="absolute top-4 right-4 rounded-md px-3 py-1.5 bg-[#a58141] text-[#ffffe6] text-xs font-bold z-10 select-none uppercase tracking-widest shadow-md">
                                         Best Seller
                                     </div>
                                 )} 
+                                
                                 <img src={product.cover} alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
                             </div>
                         </div>
@@ -113,13 +109,22 @@ export default function Home(){
                     </div>
                 </div>
 
-                <div className="flex flex-wrap gap-8 p-8 justify-center">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 p-8 w-full">
                    {categories.slice(0, 5).map((category) => (
-                        <div key={category._id} onClick={() => navigate(`/category/${category.name}`)} className="flex flex-col items-center gap-3 cursor-pointer group w-24 md:w-32">
-                            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-transparent group-hover:border-[#8B6B4A] transition-all duration-300 shadow-md bg-white">
-                                <img src={category.imageBanner} alt={category.name} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                        <div 
+                            key={category._id} 
+                            onClick={() => navigate(`/category/${category.name}`)} 
+                            className="w-full cursor-pointer group"
+                        >
+                            <div className="relative w-full h-80 rounded-2xl overflow-hidden border border-gray-300 shadow-lg hover:shadow-2xl hover:border-[#8B6B4A] transition-all duration-300 bg-white">
+                                
+                                <img 
+                                    src={category.imageBanner} 
+                                    alt={category.name} 
+                                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                                />
+                                
                             </div>
-                            <span className="text-[#a58141] font-bold text-sm tracking-widest uppercase text-center">{category.name}</span>
                         </div>
                    ))}
                 </div>
