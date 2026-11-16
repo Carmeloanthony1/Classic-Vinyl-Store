@@ -7,18 +7,18 @@ const User = require("../models/User");
 passport.use(
     new GoogleStrategy(
         {
-            clientID : process.env.GOOGLE_CLIENT,
-            clientSECRET : process.env.GOOGLE_SECRET,
-            callbackURL : process.env.GOOGLE_CALLBACK,
+            clientID: process.env.GOOGLE_CLIENT,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
+            callbackURL: process.env.GOOGLE_CALLBACK,
         }, 
         async (accessToken, refreshToken, profile, done) => {
             try {
                 let user = await User.findOne({ email: profile.emails[0].value });
                 if(user){
-                    return done (null, user);
+                    return done(null, user);
                 }
 
-                user = new user({
+                user = new User({
                     name: profile.displayName,
                     email: profile.emails[0].value,
                     password: "google-oauth-login",
@@ -28,7 +28,6 @@ passport.use(
             } catch (error) {
                 return done(error, null);
             }
-
         }
     )
 );
