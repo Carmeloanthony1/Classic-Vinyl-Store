@@ -79,7 +79,9 @@ export default function Detail() {
             const data = await response.json();
 
             if(response.ok){
-                navigate(`/Payment/${id}/${data.order_id}`);
+                navigate(`/Payment/${id}/${data.order_id}`, {
+                    state: {quantity}
+                });
             } else {
                 alert("Gagal membuat pesanan");
             }

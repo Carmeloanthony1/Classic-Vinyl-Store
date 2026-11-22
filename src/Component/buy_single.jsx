@@ -11,9 +11,6 @@ export default function BuySingle(){
     const { id, order_id } = useParams();
     const navigate = useNavigate();
     const location = useLocation(); 
-    
-    // Ambil quantity dari halaman sebelumnya
-    const quantity = location.state?.quantity || 1;
 
     const [selected_payment, setSelected_payment] = useState("bca"); 
     const [product, setProduct] = useState(null);
@@ -39,7 +36,10 @@ export default function BuySingle(){
     if (loading) return <div className="text-black text-center mt-20 text-2xl">Memuat data...</div>;
     if (!product) return <div className="text-black text-center mt-20 text-2xl">Produk tidak ditemukan.</div>;
 
-    const totalprice = product.price * quantity;
+    // Ambil quantity dari halaman sebelumnya
+    const quantity = location.state?.quantity ?? (Number(localStorage.getItem(`qty_${id}`)) | 1);
+    const price = Number(product.price) || 0;
+    const totalprice = price * quantity;
 
     return (
         <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center p-4 font-sans">
