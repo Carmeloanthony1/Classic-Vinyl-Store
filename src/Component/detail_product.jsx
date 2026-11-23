@@ -140,14 +140,14 @@ export default function Detail() {
                         </Link>
                         {/*Cart icon*/}
                         <div className="flex flex-row mr-21 gap-8">
-                            <div className="relative cursor-pointer w-10 h-10 fill-[#ffffe4] hover:opacity-75">
+                            <Link to = "/Cart" className="relative cursor-pointer w-10 h-10 fill-[#ffffe4] hover:opacity-75">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                                     <path d="M24 48C10.7 48 0 58.7 0 72C0 85.3 10.7 96 24 96L69.3 96C73.2 96 76.5 98.8 77.2 102.6L129.3 388.9C135.5 423.1 165.3 448 200.1 448L456 448C469.3 448 480 437.3 480 424C480 410.7 469.3 400 456 400L200.1 400C188.5 400 178.6 391.7 176.5 380.3L171.4 352L475 352C505.8 352 532.2 330.1 537.9 299.8L568.9 133.9C572.6 114.2 557.5 96 537.4 96L124.7 96L124.3 94C119.5 67.4 96.3 48 69.2 48L24 48zM208 576C234.5 576 256 554.5 256 528C256 501.5 234.5 480 208 480C181.5 480 160 501.5 160 528C160 554.5 181.5 576 208 576zM432 576C458.5 576 480 554.5 480 528C480 501.5 458.5 480 432 480C405.5 480 384 501.5 384 528C384 554.5 405.5 576 432 576z"/>
                                 </svg>
                                 {cartCount > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md">{cartCount}</span>
                                 )}
-                            </div>
+                            </Link>
                             <div className="w-10 h-10 fill-[#ffffe4] hover:opacity-75">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                                     <path d="M371.8 82.4C359.8 87.4 352 99 352 112L352 192L240 192C142.8 192 64 270.8 64 368C64 481.3 145.5 531.9 164.2 542.1C166.7 543.5 169.5 544 172.3 544C183.2 544 192 535.1 192 524.3C192 516.8 187.7 509.9 182.2 504.8C172.8 496 160 478.4 160 448.1C160 395.1 203 352.1 256 352.1L352 352.1L352 432.1C352 445 359.8 456.7 371.8 461.7C383.8 466.7 397.5 463.9 406.7 454.8L566.7 294.8C579.2 282.3 579.2 262 566.7 249.5L406.7 89.5C397.5 80.3 383.8 77.6 371.8 82.6z"/>
