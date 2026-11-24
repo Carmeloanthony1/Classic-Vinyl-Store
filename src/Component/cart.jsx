@@ -5,6 +5,7 @@ export default function Cart(){
     const [cart_items, setCart_items] = useState([]);
     const [isMounted, setIsMounted] = useState(false);
     const [ischecked, setIschecked] = useState(false);
+    const [isselected, setIsselected] = useState(false);
     useEffect(() => {
         const saved_cart = JSON.parse(localStorage.getItem("cart")) || [];
         setCart_items(saved_cart.map(item => ({ 
@@ -18,7 +19,13 @@ export default function Cart(){
         setCart_items(updated);
         localStorage.setItem("cart", JSON.stringify(updated));
     };
-    
+    const handletoggle_selected = (id) => {
+        const updated = cart_items.map((item) => {
+            const currentID = item._id || item.id;
+            return currentID === id ? { ...item, isselected: !item.isselected } : true
+        });
+        sync_cart(updated);
+    }
     const handleremove = (id) => {
         const updated = cart_items.filter(item => (item._id || item.id) !== id);
         sync_cart(updated);
@@ -50,7 +57,7 @@ return(
                             <div key={itemID} className="flex items-center justify-between border-b border-black/15 pb-4 gap-4 px-12">
                                 <input type="checkbox" checked={ischecked} className="w-12 h-12 border-[#a58141] cursor-pointer"/>
                                 <div className="flex items-center gap-4 px-12">
-                                    <img src={item.cover || item.image} className="w-48 h-48 object-cover rounded" />
+                                    <img src={item.cover || item.image} className="w-48 h-48 object-cover rounded shadow-xl" />
                                 </div>
                                 <div className="flex-1 grid grid-cols-3 items-center gap-4 text-black text-center">
                                     <h2 className="font-bold text-lg">{item.title}</h2>
