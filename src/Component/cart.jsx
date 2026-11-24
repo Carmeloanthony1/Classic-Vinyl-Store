@@ -4,6 +4,7 @@ export default function Cart(){
     const navigate = useNavigate();
     const [cart_items, setCart_items] = useState([]);
     const [isMounted, setIsMounted] = useState(false);
+    const [ischecked, setIschecked] = useState(false);
     useEffect(() => {
         const saved_cart = JSON.parse(localStorage.getItem("cart")) || [];
         setCart_items(saved_cart.map(item => ({ 
@@ -46,16 +47,26 @@ return(
                     {cart_items.map((item) => {
                         const itemID = item._id || item.id;
                         return (
-                            <div key={itemID} className="flex items-center justify-between border-b border-black/15 pb-4 gap-4">
+                            <div key={itemID} className="flex items-center justify-between border-b border-black/15 pb-4 gap-4 px-12">
+                                <input type="checkbox" checked={ischecked} className="w-12 h-12 border-[#a58141] cursor-pointer"/>
                                 <div className="flex items-center gap-4 px-12">
                                     <img src={item.cover || item.image} className="w-48 h-48 object-cover rounded" />
                                 </div>
-                                <div className="flex-1 grid grid-cols-3 items-center gap-4 text-black">
+                                <div className="flex-1 grid grid-cols-3 items-center gap-4 text-black text-center">
                                     <h2 className="font-bold text-lg">{item.title}</h2>
                                     <h2 className="font-bold text-lg">{item.artist}</h2>
-                                    <p className="font-semibold">Rp {Number(item.price).toLocaleString("id-ID")} x {item.quantity || 1}</p>
+                                    <p className="font-semibold">Rp {Number(item.price).toLocaleString("id-ID")}</p>
                                 </div>
+                                <button 
+                                    type="button" onClick={() => handleremove(item._id || item.id)}
+                                    className="w-15 h-15 fill-black mr-5"
+                                    >
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                                        <path d="M232.7 69.9L224 96L128 96C110.3 96 96 110.3 96 128C96 145.7 110.3 160 128 160L512 160C529.7 160 544 145.7 544 128C544 110.3 529.7 96 512 96L416 96L407.3 69.9C402.9 56.8 390.7 48 376.9 48L263.1 48C249.3 48 237.1 56.8 232.7 69.9zM512 208L128 208L149.1 531.1C150.7 556.4 171.7 576 197 576L443 576C468.3 576 489.3 556.4 490.9 531.1L512 208z"/>
+                                    </svg>
+                                </button>
                             </div>
+                            
                         )
                     })}
                 </div>
