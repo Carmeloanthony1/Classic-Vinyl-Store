@@ -6,25 +6,60 @@ export default function Cart(){
     const [isMounted, setIsMounted] = useState(false);
     useEffect(() => {
         const saved_cart = JSON.parse(localStorage.getItem("cart")) || [];
-        setCart_items(saved_cart.map(item => ({ ...item, selected: true })));
+        setCart_items(saved_cart.map(item => ({ 
+            ...item, 
+            selected: item.selected ?? true, 
+            quantity: item.quantity || item.qty || 1
+         })));
     }, []);
 
-    useEffect(() => {
-        localStorage.setItem("cart", JSON.stringify(cart_items));
-    }, [cart_items, isMounted]);
+    const sync_cart = (updated) => {
+        setCart_items(updated);
+        localStorage.setItem("cart", JSON.stringify(updated));
+    };
+    
+    const handleremove = (id) => {
+        const updated = cart_items.filter(item => (item._id || item.id) !== id);
+        sync_cart(updated);
+    }
+  
+    const totalharga = cart_items
+        .filter(item => item.selected)
+        .reduce((sum, item) => sum + (Number(item.price) * (item.quantity || 1)), 0);
 return(
-    <div className="w-full h-screen p-16">
+    <div className="w-full h-screen p-16 flex justify-center items-center">
         <img className= "fixed inset-0 w-full h-full object-cover -z-10 opacity-65" src="/background_payment.webp" />
-        <div className="w-full flex flex-rows bg-[#ffffe4] rounded-lg">
+        <div className="w-full max-w-[90%] mx-auto flex flex-col bg-[#ffffe4] rounded-lg">
             <div className="w-full flex justify-between text-black p-4">
                 <h1 className="text-2xl font-bold">Your shopping cart</h1>
-                <div className="flex flex-rows items-center gap-2">
+                <div className="flex flex-rows items-center gap-4">
                     <svg className= "w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                         <path d="M41.4 297.4C28.9 309.9 28.9 330.2 41.4 342.7L169.4 470.7C181.9 483.2 202.2 483.2 214.7 470.7C227.2 458.2 227.2 437.9 214.7 425.4L141.3 352L576 352C593.7 352 608 337.7 608 320C608 302.3 593.7 288 576 288L141.3 288L214.7 214.6C227.2 202.1 227.2 181.8 214.7 169.3C202.2 156.8 181.9 156.8 169.4 169.3L41.4 297.3z"/>
                     </svg>
                     <h2 className="text-2xl font-bold">Back</h2>
                 </div>
             </div>
+            {cart_items.length === 0 ? (
+                <p className="py-8 text-center font-bold font-medium text-2xl text-black h-[80vh] flex items-center justify-center -mt-12">Keranjang masih kosong</p>
+            ) : ( 
+                <div className="flex flex-col gap-4">
+                    {cart_items.map((item) => {
+                        const itemID = item._id || item.id;
+                        return (
+                            <div key={itemID} className="flex items-center justify-between border-b border-black/15 pb-4 gap-4">
+                                <div className="flex items-center gap-4">
+                                    <img src={src.cover || item.cover} className="w-16 h-16 object-cover rounded" />
+                                </div>
+                                <div>
+                                    <h2 className="font-bold text-lg">{item.title}</h2>
+                                    <h2 className="font-bold text-lg">{item.artist}</h2>
+                                    <p className="font-semibold">Rp {Number(item.price).toLocaleString("id-ID")} x {item.quantity || 1}</p>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+            )}
         </div>
     </div>
 );

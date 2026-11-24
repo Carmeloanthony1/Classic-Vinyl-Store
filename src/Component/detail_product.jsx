@@ -93,25 +93,46 @@ export default function Detail() {
         }
     };
     const addtocart = () => {
+        if(!product) return;
+
         try {
             const exist_cart = JSON.parse(localStorage.getItem("cart") || "[]");
-            const exist_item = exist_cart.findIndex(item => item._id === product._id);
+            const itemID = product._id || product.id;
+            const exist_index = exist_cart.findIndex((item) => (item._id || item.id) === itemID);
 
-            if(exist_item > - 1){
-                exist_cart[exist_item].quantity += quantity;
+            let updatedCart;
+            if(exist_index > -1){
+                updatedCart = exist_cart.map((item, idx) => 
+                    idx === exist_index 
+                    ? {
+                        ...item,
+                        quantity: (item.quantity || item.qty || 1) + quantity,
+                        qty: (item.quantity || item.qty || 1) + quantity,
+                        selected: true
+                    }
+                    : item
+                );
             } else {
-                exist_cart.push({
-                    _id: product._id,
-                    title: product.title,
-                    price: product.price,
-                    cover: product.cover,
-                    quantity: quantity
-                });
+                updatedCart = [
+                    ...exist_cart,
+                    {
+                        id: itemID,
+                        _id: itemID,
+                        title: product.title,
+                        artist: product.artist,
+                        price: Number(product.price),
+                        cover: product.cover,
+                        image: product.image,
+                        quantity: quantity,
+                        qty: quantity,
+                        selected: true,
+                    }
+                ];
             }
 
-            localStorage.setItem("cart", JSON.stringify(exist_cart));
+            localStorage.setItem("cart", JSON.stringify(updatedCart));
             
-            setCartCount(exist_cart.length);
+            setCartCount(updatedCart.length);
             alert("Berhasil masuk keranjang!");
         } catch (err) {
             console.error("Gagal menambah ke keranjang", err);
