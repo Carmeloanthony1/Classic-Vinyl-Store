@@ -47,10 +47,10 @@ return(
                         const itemID = item._id || item.id;
                         return (
                             <div key={itemID} className="flex items-center justify-between border-b border-black/15 pb-4 gap-4">
-                                <div className="flex items-center gap-4">
-                                    <img src={src.cover || item.cover} className="w-16 h-16 object-cover rounded" />
+                                <div className="flex items-center gap-4 px-12">
+                                    <img src={item.cover || item.image} className="w-48 h-48 object-cover rounded" />
                                 </div>
-                                <div>
+                                <div className="flex-1 grid grid-cols-3 items-center gap-4 text-black">
                                     <h2 className="font-bold text-lg">{item.title}</h2>
                                     <h2 className="font-bold text-lg">{item.artist}</h2>
                                     <p className="font-semibold">Rp {Number(item.price).toLocaleString("id-ID")} x {item.quantity || 1}</p>
