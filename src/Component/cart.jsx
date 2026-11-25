@@ -31,8 +31,8 @@ export default function Cart(){
         sync_cart(updated);
     }
   
-    const handletambah_QTY = () =>  {
-        const updated = cart_items.map((items) => {
+    const handletambah_QTY = (id) =>  {
+        const updated = cart_items.map((item) => {
             const currentID = item._id || item.id;
             if(currentID !== id) return item;
             const currentQTY = Number(item.quantity) || 1;
@@ -41,16 +41,16 @@ export default function Cart(){
         sync_cart(updated);
     }
 
-    const handlekurang_QTY = () => {
-        const updated = cart_items.map((items) => {
+    const handlekurang_QTY = (id) => {
+        const updated = cart_items.map((item) => {
             const currentID = item._id || item.id;
-            if(currentID !== id) return items;
+            if(currentID !== id) return item;
             const currentQTY = Number(item.quantity) || 1;
             if(currentQTY < 1){
                 alert("Tidak bisa mengurangi produk hingga kurang dari 1");
-                return items
+                return item
             }
-            return { ...items, quantity: currentQTY - 1}
+            return { ...item, quantity: currentQTY - 1}
         });
         sync_cart(updated);
     }
@@ -78,18 +78,20 @@ return(
                     {cart_items.map((item) => {
                         const itemID = item._id || item.id;
                         return (
-                            <div key={itemID} className="flex items-center justify-between border-b border-black/15 pb-4 gap-4 px-12">
+                            <div key={itemID} className="flex items-center justify-between border-b border-black/15 pb-4 gap-4 px-12 font-cinzel">
                                 <input type="checkbox" checked={Boolean(item.selected)} onChange={() => handletoggle_selected(itemID)} className="w-12 h-12 accent-[#a58141] cursor-pointer"/>
                                 <div className="flex items-center gap-4 px-12">
                                     <img src={item.cover || item.image} className="w-48 h-48 object-cover rounded shadow-xl" />
                                 </div>
                                 <div className="flex-1 grid grid-cols-3 items-center gap-4 text-black text-center">
-                                    <h2 className="font-bold text-lg">{item.title}</h2>
-                                    <h2 className="font-bold text-lg">{item.artist}</h2>
+                                    <div className="flex flex-col items-start gap-4">
+                                        <h2 className="font-bold text-4xl">{item.title}</h2>
+                                        <h2 className="font-bold text-xl">{item.artist}</h2>
+                                    </div>
                                     <div className="flex flex-row">
-                                        <button onClick = {kurang} className="p-3 bg-[#dfb58d]">-</button>
-                                        <span className="p-2 pl-8 text-[#ffffe4] pr-8 bg-[#000000]">{quantity}</span>
-                                        <button onClick = {tambah} className="p-3 bg-[#dfb58d]">+</button>
+                                        <button onClick = {() => handlekurang_QTY(itemID)} className="p-3 bg-[#dfb58d]">-</button>
+                                        <span className="p-2 pl-8 text-[#ffffe4] pr-8 bg-[#000000]">{item.quantity || 1}</span>
+                                        <button onClick = {() => handletambah_QTY(itemID)} className="p-3 bg-[#dfb58d]">+</button>
                                     </div>
                                     <p className="font-semibold">Rp {Number(item.price).toLocaleString("id-ID")}</p>
                                 </div>
