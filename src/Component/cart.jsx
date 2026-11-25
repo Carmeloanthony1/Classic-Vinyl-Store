@@ -22,7 +22,7 @@ export default function Cart(){
     const handletoggle_selected = (id) => {
         const updated = cart_items.map((item) => {
             const currentID = item._id || item.id;
-            return currentID === id ? { ...item, isselected: !item.isselected } : true
+            return currentID === id ? { ...item, selected: !item.selected } : item;
         });
         sync_cart(updated);
     }
@@ -31,6 +31,30 @@ export default function Cart(){
         sync_cart(updated);
     }
   
+    const handletambah_QTY = () =>  {
+        const updated = cart_items.map((items) => {
+            const currentID = item._id || item.id;
+            if(currentID !== id) return item;
+            const currentQTY = Number(item.quantity) || 1;
+            return {...item, quantity: currentQTY + 1}
+        });
+        sync_cart(updated);
+    }
+
+    const handlekurang_QTY = () => {
+        const updated = cart_items.map((items) => {
+            const currentID = item._id || item.id;
+            if(currentID !== id) return items;
+            const currentQTY = Number(item.quantity) || 1;
+            if(currentQTY < 1){
+                alert("Tidak bisa mengurangi produk hingga kurang dari 1");
+                return items
+            }
+            return { ...items, quantity: currentQTY - 1}
+        });
+        sync_cart(updated);
+    }
+
     const totalharga = cart_items
         .filter(item => item.selected)
         .reduce((sum, item) => sum + (Number(item.price) * (item.quantity || 1)), 0);
@@ -55,13 +79,18 @@ return(
                         const itemID = item._id || item.id;
                         return (
                             <div key={itemID} className="flex items-center justify-between border-b border-black/15 pb-4 gap-4 px-12">
-                                <input type="checkbox" checked={ischecked} className="w-12 h-12 border-[#a58141] cursor-pointer"/>
+                                <input type="checkbox" checked={Boolean(item.selected)} onChange={() => handletoggle_selected(itemID)} className="w-12 h-12 accent-[#a58141] cursor-pointer"/>
                                 <div className="flex items-center gap-4 px-12">
                                     <img src={item.cover || item.image} className="w-48 h-48 object-cover rounded shadow-xl" />
                                 </div>
                                 <div className="flex-1 grid grid-cols-3 items-center gap-4 text-black text-center">
                                     <h2 className="font-bold text-lg">{item.title}</h2>
                                     <h2 className="font-bold text-lg">{item.artist}</h2>
+                                    <div className="flex flex-row">
+                                        <button onClick = {kurang} className="p-3 bg-[#dfb58d]">-</button>
+                                        <span className="p-2 pl-8 text-[#ffffe4] pr-8 bg-[#000000]">{quantity}</span>
+                                        <button onClick = {tambah} className="p-3 bg-[#dfb58d]">+</button>
+                                    </div>
                                     <p className="font-semibold">Rp {Number(item.price).toLocaleString("id-ID")}</p>
                                 </div>
                                 <button 
