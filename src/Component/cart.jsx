@@ -246,7 +246,7 @@ export default function Cart() {
                     </div>
 
                     <p className="font-cinzel font-semibold text-lg text-[#2b1a10] whitespace-nowrap px-2">
-                      Rp {Number(item.price).toLocaleString("id-ID")}
+                      Rp {Number(item.price * item.quantity).toLocaleString("id-ID")}
                     </p>
 
                     <div className="hidden lg:block w-[1px] h-28 bg-[#c89d54]/45" />
