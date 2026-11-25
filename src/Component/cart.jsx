@@ -58,6 +58,18 @@ export default function Cart() {
     sync_cart(updated);
   };
 
+  const isAllSelected =
+    cart_items.length > 0 && cart_items.every((item) => Boolean(item.selected));
+
+  const handleToggleSelectAll = () => {
+    const nextSelected = !isAllSelected;
+    const updated = cart_items.map((item) => ({
+      ...item,
+      selected: nextSelected,
+    }));
+    sync_cart(updated);
+  };
+
   const totalharga = cart_items
     .filter((item) => item.selected)
     .reduce((sum, item) => sum + Number(item.price) * (item.quantity || 1), 0);
@@ -70,11 +82,8 @@ export default function Cart() {
         alt="Background"
       />
 
-      {/* Wrapper utama berisi 2 kotak terpisah: [1. Kotak Cart] dan [2. Kotak Total di bawahnya] */}
       <div className="w-full max-w-6xl mx-auto flex flex-col gap-5">
-        {/* 1. KOTAK CART (Fixed height + scrollable item list di dalamnya) */}
         <div className="relative w-full h-[48vh] min-h-[420px] flex flex-col bg-[#f9ebd2] rounded-3xl border-[3px] border-[#c89d54] shadow-[0_20px_50px_rgba(30,18,10,0.45)] overflow-hidden">
-          {/* Decorative Corner Vinyl Grooves (Top-Left & Bottom-Right) */}
           <svg
             className="pointer-events-none absolute top-0 left-0 w-44 h-44 text-[#2b1a10] z-0"
             viewBox="0 0 200 200"
@@ -115,7 +124,6 @@ export default function Cart() {
             />
           </svg>
 
-          {/* Header */}
           <div className="relative z-10 shrink-0 w-full flex justify-between items-center text-[#2b1a10] px-10 md:px-24 pt-6 pb-3">
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
               Your shopping cart
@@ -139,7 +147,6 @@ export default function Cart() {
             </button>
           </div>
 
-          {/* Scrollable Cart Items */}
           {cart_items.length === 0 ? (
             <div className="relative z-10 flex-1 min-h-0 flex items-center justify-center">
               <p className="text-center font-bold text-2xl text-[#2b1a10]">
@@ -155,7 +162,6 @@ export default function Cart() {
                     key={itemID}
                     className="shrink-0 flex flex-wrap lg:flex-nowrap items-center justify-between py-5 gap-6"
                   >
-                    {/* Custom Circular Checkbox + Sparkles */}
                     <div className="relative flex items-center justify-center pl-2">
                       <span className="pointer-events-none absolute -top-3 -left-1 text-[#c89d54] text-xs">
                         ✦
@@ -274,7 +280,62 @@ export default function Cart() {
           )}
         </div>
 
-        <div className="w-full min-h-[76px] bg-[#2b1a10]/90 text-[#f9ebd2] rounded-2xl border-[2.5px] border-[#c89d54] shadow-[0_14px_35px_rgba(30,18,10,0.45)] px-8 md:px-12 py-4 flex items-center justify-between">
+        <div className="w-full min-h-[76px] bg-[#2b1a10]/95 text-[#f9ebd2] rounded-2xl border-[2.5px] border-[#c89d54] shadow-[0_14px_35px_rgba(30,18,10,0.45)] px-6 md:px-10 py-3.5 flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={handleToggleSelectAll}
+              aria-label="Select all items"
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition cursor-pointer shadow-inner shrink-0 ${
+                isAllSelected
+                  ? "bg-[#c69749] text-[#2b1a10]"
+                  : "bg-[#3d2618] border-2 border-[#c89d54] text-transparent"
+              }`}
+            >
+              <svg
+                className="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </button>
+
+            <span
+              onClick={handleToggleSelectAll}
+              className="text-base md:text-lg font-medium tracking-wide cursor-pointer select-none hover:text-[#dfb58d] transition"
+            >
+              Select All
+            </span>
+
+            <div className="hidden md:block w-[1px] h-9 bg-[#c89d54]/40 ml-2" />
+          </div>
+
+          <div className="flex items-center justify-between md:justify-end gap-6 w-full md:w-auto">
+            <div className="flex items-baseline gap-3">
+              <span className="text-base md:text-lg text-[#f9ebd2]/85 tracking-wide">
+                Total :
+              </span>
+              <span className="font-cinzel font-bold text-xl md:text-2xl text-[#e5b869]">
+                Rp {Number(totalharga).toLocaleString("id-ID")}
+              </span>
+            </div>
+
+            <div className="hidden md:block w-[1px] h-9 bg-[#c89d54]/40" />
+
+            <button
+              type="button"
+              disabled={totalharga === 0}
+              onClick={() => navigate("/checkout")}
+              className="px-7 py-2.5 rounded-full bg-[#dfb58d] text-[#2b1a10] font-cinzel font-bold text-base md:text-lg tracking-wider shadow-md hover:brightness-105 active:scale-[0.98] disabled:opacity-45 disabled:cursor-not-allowed transition cursor-pointer"
+            >
+              Checkout
+            </button>
+          </div>
         </div>
       </div>
     </div>
