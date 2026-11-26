@@ -38,15 +38,22 @@ export default function Cart() {
         const response = await fetch("http://localhost:8000/api/orders", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ product_id: id, quantity: quantity })
+            body: JSON.stringify({ items: selectedITEM })
         });
 
         const data = await response.json();
 
         if(response.ok){
-            navigate(`/Payment/${id}/${data.order_id}`, {
-                state: {quantity}
-            });
+          const remainingCart = cart_items.filter((item) => !item.selected);
+          sync_cart(remainingCart);
+          
+          const targetProductId = id || selectedITEM[0].product_id;
+          navigate(`/Payment/${targetProductId}/${data.order_id}`, {
+            state: {
+              items: selectedITEM,
+              totalharga: data.total_price ?? totalharga
+            }
+          });
         } else {
             alert("Gagal membuat pesanan");
         }

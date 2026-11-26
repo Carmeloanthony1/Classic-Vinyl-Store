@@ -13,16 +13,27 @@ export default function BuySingle(){
     const location = useLocation(); 
 
     const [selected_payment, setSelected_payment] = useState("bca"); 
+    const [orderData, setOrderData] = useState(null);
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetch_product = async () => {
+            setLoading(true);
             try {
-                const response = await fetch(`http://localhost:8000/api/products/${id}`);
-                if(response.ok){
-                    const data = await response.json();
-                    setProduct(data);
+                if(order_id){
+                    const response = await fetch(`http://localhost:8000/api/orders/${order_id}`);
+                    if(response.ok){
+                        const data = await response.json();
+                        setOrderData(data);
+                    }
+                }
+                if (id) {
+                    const response = await fetch(`http://localhost:8000/api/products/${id}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        setProduct(data);
+                    }
                 }
             } catch (error) {
                 console.error("Gagal mengambil data produk", error);
@@ -31,15 +42,15 @@ export default function BuySingle(){
             }
         };
         fetch_product();
-    }, [id]);
+    }, [id, order_id]);
 
     if (loading) return <div className="text-black text-center mt-20 text-2xl">Memuat data...</div>;
-    if (!product) return <div className="text-black text-center mt-20 text-2xl">Produk tidak ditemukan.</div>;
+    if (!orderData && !product) return <div className="text-black text-center mt-20 text-2xl">Produk tidak ditemukan.</div>;
 
     // Ambil quantity dari halaman sebelumnya
-    const quantity = location.state?.quantity ?? (Number(localStorage.getItem(`qty_${id}`)) | 1);
-    const price = Number(product.price) || 0;
-    const totalprice = price * quantity;
+    const quantity = location.state?.quantity ?? (Number(localStorage.getItem(`qty_${id}`)) || 1);
+    const price = Number(product?.price) || 0;
+    const totalprice = orderData ? Number(orderData.total_price) || 0 : price * quantity;
 
     return (
         <div className="relative w-full min-h-screen overflow-hidden flex items-center justify-center p-4 font-sans">
@@ -63,10 +74,21 @@ export default function BuySingle(){
 
                 <div className="p-6 md:p-8 flex flex-col gap-6">
                     
-                    <div className="bg-[#fee7d1] rounded-xl text-black p-4 flex flex-col gap-1 border border-[#f0d8bc]">
+                   <div className="bg-[#fee7d1] rounded-xl text-black p-4 flex flex-col gap-1 border border-[#f0d8bc]">
                         <h2 className="font-bold text-lg text-gray-600">Total Pembayaran</h2>
                         <h1 className="font-bold text-3xl">Rp {totalprice.toLocaleString('id-ID')}</h1>
-                        <p className="text-sm text-gray-500 mt-1">Order ID : {order_id}</p>
+                        {order_id && <p className="text-sm text-gray-500 mt-1">Order ID : {order_id}</p>}
+
+                        {orderData?.items?.length > 0 && (
+                            <div className="mt-2 pt-2 border-t border-[#e5c5a3] flex flex-col gap-1 text-sm text-gray-700">
+                                {orderData.items.map((item, idx) => (
+                                    <div key={item._id || idx} className="flex justify-between">
+                                        <span>{item.product_id?.title || `Item #${idx + 1}`} × {item.quantity}</span>
+                                        <span>Rp {Number(item.total || 0).toLocaleString('id-ID')}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     <div className="flex flex-col gap-4">
