@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
 export default function Cart() {
   const navigate = useNavigate();
+  const { id, order_id } = useParams();
   const [cart_items, setCart_items] = useState([]);
+  const [isprocess, setIsprocess] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const saved_cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -15,6 +17,32 @@ export default function Cart() {
       }))
     );
   }, []);
+
+  const order = async () => {
+    setIsprocess(true);
+    try {
+        const response = await fetch("http://localhost:8000/api/orders", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ product_id: id, quantity: quantity })
+        });
+
+        const data = await response.json();
+
+        if(response.ok){
+            navigate(`/Payment/${id}/${data.order_id}`, {
+                state: {quantity}
+            });
+        } else {
+            alert("Gagal membuat pesanan");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Terjadi kesalahan server");
+    } finally {
+        setIsprocess(false);
+    }
+  };
 
   const sync_cart = (updated) => {
     setCart_items(updated);
@@ -330,7 +358,7 @@ export default function Cart() {
             <button
               type="button"
               disabled={totalharga === 0}
-              onClick={() => navigate("/checkout")}
+              onClick={order}
               className="px-7 py-2.5 rounded-full bg-[#dfb58d] text-[#2b1a10] font-cinzel font-bold text-base md:text-lg tracking-wider shadow-md hover:brightness-105 active:scale-[0.98] disabled:opacity-45 disabled:cursor-not-allowed transition cursor-pointer"
             >
               Checkout
