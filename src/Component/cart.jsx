@@ -5,7 +5,7 @@ export default function Cart() {
   const { id, order_id } = useParams();
   const [cart_items, setCart_items] = useState([]);
   const [isprocess, setIsprocess] = useState(false);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1)
 
   useEffect(() => {
     const saved_cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -19,6 +19,20 @@ export default function Cart() {
   }, []);
 
   const order = async () => {
+    const selectedITEM = cart_items
+      .filter((item) => item.selected)
+      .map((item) => ({
+        product_id: item._id || item.id,
+        title: item.title,
+        price: Number(item.price),
+        quantity: Number(item.quantity) || 1
+      }))
+
+    if (selectedITEM.length === 0){
+      alert("Silahkan memesan suatu barang terlebih dahulu");
+      return;
+    }
+
     setIsprocess(true);
     try {
         const response = await fetch("http://localhost:8000/api/orders", {

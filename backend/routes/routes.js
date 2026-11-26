@@ -33,8 +33,14 @@ const song_schema = new mongoose.Schema({
 const order_schema = new mongoose.Schema({
     order_id: String,
     user_id: String,
-    product_id: String,
-    quantity: Number,
+    items: [
+        {
+            product_id: { type: mongoose.Schema.Types.ObjectId, ref: "product"},
+            quantity: Number,
+            price: Number,
+            total: Number
+        }
+    ],
     total_price: Number,
     status: { type: String, default: "Pending" },
     created: { type: Date, default: Date.now }
@@ -111,27 +117,53 @@ router.get('/products/:id/songs', async (req, res) => {
 
 router.post('/orders', async (req, res) => {
     try {
-        const { product_id, quantity } = req.body;
+        const { items } = req.body;
 
-        const product = await Product.findById(product_id);
-        if(!product){
-            return res.status(404).json({message: "Produk tidak di temukan"});
+        if (!Array.isArray(items) || items.length === 0){
+            return res.status(400).json({message: "Barang tidak boleh kosong"})
         }
+        const product_id = items.map((item) => item.product_id);
+        const product_Name = await Product.find({ _id: { $in: product_id }});
+        const productMap = new Map(product_Name.map((p) => [String(p._id), p]));
 
-        const total_price = product.price * quantity;
+        let totalprice = 0;
+        const order_item = [];
+
+        for (const item of items){
+            const product = productMap.get(String(item.product_id));
+            if(!product){
+                return res.status(404).json({
+                    message: "Barang tidak di temukan"
+                });
+            }
+            const quantity = Math.max(1, Number(item.quantity) || 1);
+            const total = product.price * quantity;
+            totalprice += total;
+
+            order_item.push({
+                product_id: product._id,
+                quantity,
+                price: product.price,
+                total
+            });
+
+        }
+    
+        //0 itu nilai awal, reduce itu fungsi bawaan untuk menyimpulkan nilai dari array
+        const final_price = order_item.reduce((sum, item) => sum + item.total, 0);
         const order_id = `ORD-${generate_id()}`;
 
         const new_order = new Order({
             order_id: order_id,
-            product_id: product_id,
-            quantity: quantity,
-            total_price: total_price
+            items: order_item,
+            total_price: final_price
         });
         await new_order.save();
 
         res.status(201).json({
             message: "Order berhasil dibuat",
-            order_id: order_id
+            order_id: order_id,
+            total_price: final_price
         });
     } catch (error) {
         res.status(500).json({ message: "Gagal order", error: error.message });
