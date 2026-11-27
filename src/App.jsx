@@ -9,13 +9,14 @@ import BuySingle from "./Component/buy_single";
 import Signup from "./Signup";
 import Login from "./Login";
 import Cart from "./Component/cart";
+import Member from "./Component/member";
 export default function App(){
   const location = useLocation();
 
   const halaman_tanpanav = 
     location.pathname === "/" || location.pathname.startsWith("/Payment") || location.pathname.startsWith("/product/") ||
     location.pathname === "/Signup" || location.pathname === "/Login" || location.pathname.startsWith("/category") ||
-    location.pathname === "/Cart";
+    location.pathname === "/Cart" || location.pathname === "/Member";
   return (
     <div>  
       {!halaman_tanpanav && <Nav/>}
@@ -29,6 +30,7 @@ export default function App(){
           <Route path = "/category/:category" element = {<Category/>}/>
           <Route path = "/product/:id" element = {<Detail/>}/>
           <Route path = "/Cart" element= {<Cart/>}/>
+          <Route path = "/Member" element={<Member/>}/>
         </Routes>
       </div>
     </div>

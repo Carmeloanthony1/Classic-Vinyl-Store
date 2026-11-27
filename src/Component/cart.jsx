@@ -44,9 +44,6 @@ export default function Cart() {
         const data = await response.json();
 
         if(response.ok){
-          const remainingCart = cart_items.filter((item) => !item.selected);
-          sync_cart(remainingCart);
-          
           const targetProductId = id || selectedITEM[0].product_id;
           navigate(`/Payment/${targetProductId}/${data.order_id}`, {
             state: {

@@ -70,7 +70,7 @@ export default function Home(){
                         
                         <div className="flex flex-row gap-4 mt-4">
                             <button onClick={() => navigate('/Home')} className="border-2 border-[#a58141] text-white p-3 px-8 text-xl rounded-full cursor-pointer transition-all duration-300 hover:bg-[#a58141] hover:scale-105">Shop Collection</button>
-                            <button onClick={() => navigate('/Signup')} className="border-2 border-[#a58141] text-white p-3 px-8 text-xl rounded-full cursor-pointer transition-all duration-300 hover:bg-[#a58141] hover:scale-105">Become a Member</button>
+                            <button onClick={() => navigate('/Member')} className="border-2 border-[#a58141] text-white p-3 px-8 text-xl rounded-full cursor-pointer transition-all duration-300 hover:bg-[#a58141] hover:scale-105">Become a Member</button>
                         </div>
                     </div>
                 </div>
