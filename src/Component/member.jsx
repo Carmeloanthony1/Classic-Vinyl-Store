@@ -51,9 +51,12 @@ export default function member(){
                     </svg>
 
                     <div className="relative z-10 shrink-0 w-full flex justify-between items-center text-[#2b1a10] px-10 md:px-24 pt-6 pb-3">
-                        <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-center">
-                        Your shopping cart
-                        </h1>
+                        <div className="flex-1 pl-11 text-center mt-12">
+                            <h1 className="text-4xl font-bold tracking-light">
+                                Become a Member
+                            </h1>
+                            <p>Join the Club and Spin the finest Vinyl</p>
+                        </div>
                         <button
                             type="button"
                             onClick={() => navigate(-1)}
@@ -72,8 +75,27 @@ export default function member(){
                             </svg>
                         </button>
                     </div>
+                    <div className="relative z-10 flex-1 w-full grid grid-cols-1 gap-10 items-center px-10 pb-8">
+                        <div className="flex flex-col gap-5 items-center md:items-start">
+                            <img src="Certificate.jpeg" className="w-full max-w-lg rounded-xl aspect-[16/9] overflow-hidden border border-[#c89d54] shadow-md bg-[#fffdf9]"/>
+                        </div>
+                        <ul className="space-y-3 text-sm md:text-base ">
+                            <li className="flex items-center gap-3 ">
+                                <span className="w-5 h-5 rounded-full bg-[#c89d54] text-[#f9ebd2] flex items-center justify-center text-xs font-bold shrink-0">✓</span>
+                                <span className="text-black">10% Off All Records & Merchandise</span>
+                            </li>
+                            <li className="flex items-center gap-3 ">
+                                <span className="w-5 h-5 rounded-full bg-[#c89d54] text-[#f9ebd2] flex items-center justify-center text-xs font-bold shrink-0">✓</span>
+                                <span className="text-black">Exclusive Early Access to Rare Drops</span>
+                            </li>
+                            <li className="flex items-center gap-3 ">
+                                <span className="w-5 h-5 rounded-full bg-[#c89d54] text-[#f9ebd2] flex items-center justify-center text-xs font-bold shrink-0">✓</span>
+                                <span className="text-black">Member-Only Free Shipping on Orders</span>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
     );
 }
